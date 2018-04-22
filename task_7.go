@@ -11,17 +11,17 @@ import (
 Вывести все числа Фибоначчи, которые удовлетворяют переданному в функцию ограничению:
 находятся в указанном диапазоне, либо имеют указанную длину.
 
-Входные параметры: объект context с полями min и max, либо с полем length
+Входные параметры: объект Context с полями min и max, либо с полем length
 Выход: массив чисел
  */
 
-type context struct {
+type Context struct {
 	min    int
 	max    int
 	length int
 }
 
-func fibon(c context) (res []int64, err error) {
+func fibon(c Context) (res []int64, err error) {
 	if c.length != 0 {
 		if c.length < 2 {
 			return nil, errors.New("Length can't be lower than 2")
@@ -64,7 +64,7 @@ func bineFunc(n float64) float64 {
 
 func main() {
 	var array []int64
-	var c context
+	var c Context
 	fmt.Print("\nChoose (length - type 1, limits - type 2): ")
 	var i, j int
 
