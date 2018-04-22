@@ -102,7 +102,7 @@ func main() {
 		fmt.Printf(err.Error())
 		main()
 	}
-	
+
 	fmt.Printf(" The numbers are: \n")
 	for _, num := range array {
 		fmt.Print(" ", num)
