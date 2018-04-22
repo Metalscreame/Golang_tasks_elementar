@@ -67,7 +67,6 @@ func main() {
 	for true {
 		in := bufio.NewReader(os.Stdin)
 		line, _ := in.ReadString('\n')
-		//fmt.Scanf("%s",readLn)
 		if line == "done\n" {
 			break
 		}
@@ -88,7 +87,7 @@ func main() {
 		}
 		trianglesArray = append(trianglesArray, t)
 	}
-	
+
 	//sorting
 	sort.Slice(trianglesArray, func(i, j int) bool {
 		return trianglesArray[i].Sqrt < trianglesArray[j].Sqrt
