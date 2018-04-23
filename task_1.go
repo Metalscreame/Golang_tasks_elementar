@@ -14,6 +14,11 @@ import "fmt"
 
  */
 
+type ErrorResponse struct {
+	status string
+	reason string
+}
+
 func main() {
 	var symbolToPrint string
 	var widt, length int

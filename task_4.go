@@ -5,8 +5,6 @@ import (
 	"strconv"
 )
 
-// два поисковика для четной и нечетной, в нечетной когда заходит в фолс, то очищать буфер
-
 func isPalindrome(input string) (bool, []string) {
 	var flag bool
 	var res []string
