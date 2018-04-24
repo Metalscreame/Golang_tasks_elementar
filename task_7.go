@@ -99,18 +99,32 @@ func main() {
 
 	} else if i == 2 {
 		fmt.Print("Enter min point: ")
-		_, err = fmt.Scanf("%d", &i)
+		_, err = fmt.Scanf("%s", &bufferString)
 		if err != nil { // syntax with errors checking
 			errHandler(err)
 			return
 		}
+
+		i,err = strconv.Atoi(bufferString)
+		if err != nil{
+			errHandler(errors.New("Wrong number"))
+			return
+		}
+
 		fmt.Print("Enter max point: ")
-		fmt.Scanf("%d", &j)
+		fmt.Scanf("%s", &bufferString)
+
+		j,err = strconv.Atoi(bufferString)
+		if err != nil{
+			errHandler(errors.New("Wrong number"))
+			return
+		}
 
 		c.min = i
 		c.max = j
 	} else {
-		errHandler(errors.New("Wrong input, u cant type only 1 or 2"))
+		errHandler(errors.New("Wrong input, you can choose only beetwen 1 or 2"))
+		return
 	}
 
 	array, err = fibon(c)
