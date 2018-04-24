@@ -5,6 +5,7 @@ import (
 	"math"
 	"fmt"
 	"encoding/json"
+	"strconv"
 )
 
 /*
@@ -72,25 +73,36 @@ func main() {
 	var c Context
 	fmt.Print("\nChoose (length - type 1, limits - type 2): ")
 	var i, j int
-
-	_, err := fmt.Scanf("%d", &i)
+	var err error
+	var bufferString string
+	_, err = fmt.Scanf("%d", &i)
 	if err != nil {
-		fmt.Printf(err.Error())
+		errHandler(err)
+		return
 	}
 
 	if i == 1 {
 		fmt.Print("Enter length: ")
-		_, err := fmt.Scanf("%d", &i)
+		_, err = fmt.Scanf("%s", &bufferString)
 		if err != nil {
-			fmt.Printf(err.Error())
+			errHandler(err)
+			return
+		}
+
+		//if float check
+		i,err = strconv.Atoi(bufferString)
+		if err != nil{
+			errHandler(errors.New("Wrong number"))
+			return
 		}
 		c.length = i
 
 	} else if i == 2 {
 		fmt.Print("Enter min point: ")
-		_, err := fmt.Scanf("%d", &i)
+		_, err = fmt.Scanf("%d", &i)
 		if err != nil { // syntax with errors checking
-			fmt.Printf(err.Error())
+			errHandler(err)
+			return
 		}
 		fmt.Print("Enter max point: ")
 		fmt.Scanf("%d", &j)
@@ -98,14 +110,13 @@ func main() {
 		c.min = i
 		c.max = j
 	} else {
-		fmt.Printf("Wrong input!")
-		main()
+		errHandler(errors.New("Wrong input, u cant type only 1 or 2"))
 	}
 
 	array, err = fibon(c)
 	if err != nil {
-		fmt.Printf(err.Error())
-		main()
+		errHandler(err)
+		return
 	}
 
 	fmt.Printf(" The numbers are: \n")
