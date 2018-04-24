@@ -28,6 +28,11 @@ c: 22.36
 
  */
 
+type ErrorResponse struct {
+	Status string
+	Reason string
+}
+
 type Triangle struct {
 	Vertices string
 	A        float64
@@ -75,14 +80,14 @@ func main() {
 		err = json.Unmarshal([]byte(line), &t)
 		if err != nil {
 			//valid json
-			fmt.Printf(err.Error())
+			errHandler(err)
 			break
 		}
 
 		t.Sqrt, err = getSquare(t) //calculate every's triangle square
 		if err != nil {
 			//numbers may be not valid for a triangle, wrong sizes
-			fmt.Printf(err.Error())
+			errHandler(err)
 			break
 		}
 		trianglesArray = append(trianglesArray, t)
@@ -98,4 +103,12 @@ func main() {
 		fmt.Print(" ")
 	}
 
+
+
+}
+
+func  errHandler(err error) {
+	errResponse := &ErrorResponse{Status:"failed", Reason:err.Error()}
+	result, _ := json.Marshal(errResponse)
+	fmt.Println(string(result))
 }

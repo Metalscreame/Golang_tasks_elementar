@@ -12,7 +12,10 @@ package main
 
  //вопрос. к чему тут числа  с плавающей и что с чем сравнивать?
 
-import "fmt"
+import (
+	"fmt"
+	"encoding/json"
+)
 
 const CONVERT_1  ="конверт1"
 const CONVERT_2  ="конверт2"
@@ -32,4 +35,14 @@ func main() {
 	}
 
 
+}
+func  errHandler(err error) {
+	errResponse := &ErrorResponse{Status:"failed", Reason:err.Error()}
+	result, _ := json.Marshal(errResponse)
+	fmt.Println(string(result))
+}
+
+type ErrorResponse struct {
+	Status string
+	Reason string
 }

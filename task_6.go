@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math"
+	"encoding/json"
 )
 
 /*
@@ -12,6 +13,11 @@ import (
 Выход: строка с рядом чисел
 
  */
+
+type ErrorResponse struct {
+	Status string
+	Reason string
+}
 
 func main() {
 
@@ -56,3 +62,9 @@ func main() {
 	}
 	fmt.Print(startPoint)
 }
+func  errHandler(err error) {
+	errResponse := &ErrorResponse{Status:"failed", Reason:err.Error()}
+	result, _ := json.Marshal(errResponse)
+	fmt.Println(string(result))
+}
+

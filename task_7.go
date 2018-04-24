@@ -4,6 +4,7 @@ import "errors"
 import (
 	"math"
 	"fmt"
+	"encoding/json"
 )
 
 /*
@@ -14,6 +15,10 @@ import (
 Входные параметры: объект Context с полями min и max, либо с полем length
 Выход: массив чисел
  */
+type ErrorResponse struct {
+	Status string
+	Reason string
+}
 
 type Context struct {
 	min    int
@@ -109,3 +114,9 @@ func main() {
 	}
 	fmt.Printf("")
 }
+func  errHandler(err error) {
+	errResponse := &ErrorResponse{Status:"failed", Reason:err.Error()}
+	result, _ := json.Marshal(errResponse)
+	fmt.Println(string(result))
+}
+

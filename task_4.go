@@ -3,7 +3,12 @@ package main
 import (
 	"fmt"
 	"strconv"
+	"encoding/json"
 )
+type ErrorResponse struct {
+	Status string
+	Reason string
+}
 
 func isPalindrome(input string) (bool, []string) {
 	var flag bool
@@ -61,9 +66,10 @@ func main() {
 	var input int
 	fmt.Println("Enter a number to if its a polindrome or not: ")
 
-	_, err := fmt.Scanf("%d", &input)
+	var err error
+	_, err = fmt.Scanf("%d", &input)
 	if err != nil {
-		fmt.Printf(err.Error())
+		errHandler(err)
 		return
 	}
 
@@ -77,3 +83,9 @@ func main() {
 		}
 	}
 }
+func  errHandler(err error) {
+	errResponse := &ErrorResponse{Status:"failed", Reason:err.Error()}
+	result, _ := json.Marshal(errResponse)
+	fmt.Println(string(result))
+}
+
