@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"encoding/json"
 	"errors"
 	"strconv"
 )
@@ -18,25 +17,21 @@ import (
 Выход: строка с представлением шахматной доски
 
  */
-const WRONG_NUMBER  = "Wrong number"
 
-type ErrorResponse struct {
-	Status string
-	Reason string
-}
 
-func main() {
+
+func main1() {
 	var symbolToPrint string
 	var widt, length int
 	var buffer string
 
 	var err error
-	fmt.Print("Enter the symbol to print and press Enter: ")
+	fmt.Print("Enter one symbol to print and press Enter: ")
 	_, err = fmt.Scanf("%s", &symbolToPrint)
 	if err != nil {
 		errHandler(err)
 	}else if len(symbolToPrint)>1{
-		err:= errors.New("There can be only one symbol")
+		err:= errors.New(ERROR_ONE_SYMBOL)
 		errHandler(err)
 		return
 	}
@@ -50,10 +45,9 @@ func main() {
 	//if float check
 	widt,err = strconv.Atoi(buffer)
 	if err != nil || widt<=0{
-		errHandler(errors.New(WRONG_NUMBER))
+		errHandler(errors.New(ERROR_SIGNED))
 		return
 	}
-
 
 	fmt.Printf("Enter the length and press Enter: ")
 	_, err = fmt.Scanf("%s", &buffer)
@@ -62,13 +56,11 @@ func main() {
 		return
 	}
 
-	//if float check
 	length,err = strconv.Atoi(buffer)
 	if err != nil || length<=0{
-		errHandler(errors.New(WRONG_NUMBER))
+		errHandler(errors.New(ERROR_SIGNED))
 		return
 	}
-
 
 	fmt.Printf("\n\n")
 
@@ -83,8 +75,4 @@ func main() {
 	}
 }
 
-func  errHandler(err error) {
-	errResponse := &ErrorResponse{Status:"failed", Reason:err.Error()}
-	result, _ := json.Marshal(errResponse)
-	fmt.Println(string(result))
-}
+

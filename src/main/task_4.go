@@ -3,13 +3,18 @@ package main
 import (
 	"fmt"
 	"strconv"
-	"encoding/json"
 	"errors"
 )
-type ErrorResponse struct {
-	Status string
-	Reason string
-}
+
+/*
+
+Проверить является ли число или его часть палиндромом. Например, число 1234437 не является палиндромом,
+но является палиндромом его часть 3443. Числа меньшие, чем 10 палиндромом не считать.
+
+Входные параметры: число
+Выход: извлечённый из числа палиндром либо 0, если извлечение не удалось.
+
+ */
 
 func isPalindrome(input string) (detectionFlag bool, result []string) {
 	if len(input)%2 == 0 {
@@ -62,7 +67,7 @@ func isPalindrome(input string) (detectionFlag bool, result []string) {
 	return detectionFlag, result
 }
 
-func main() {
+func main4() {
 	var input int
 	fmt.Print("Enter a number to if its a polindrome or not: ")
 
@@ -77,7 +82,7 @@ func main() {
 	//if float check
 	input,err = strconv.Atoi(buffer)
 	if err != nil || input<=0{
-		errHandler(errors.New("Wrong input"))
+		errHandler(errors.New(ERROR_SIGNED))
 		return
 	}
 
@@ -92,9 +97,3 @@ func main() {
 		}
 	}
 }
-func  errHandler(err error) {
-	errResponse := &ErrorResponse{Status:"failed", Reason:err.Error()}
-	result, _ := json.Marshal(errResponse)
-	fmt.Println(string(result))
-}
-

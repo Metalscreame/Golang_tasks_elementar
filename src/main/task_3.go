@@ -1,13 +1,13 @@
 package main
 
 import (
-	"encoding/json"
 	"math"
 	"fmt"
 	"sort"
 	"bufio"
 	"os"
 	"errors"
+	"encoding/json"
 )
 
 /*
@@ -19,6 +19,7 @@ import (
 •	Расчёт площади треугольника должен производится по формуле Герона.
 •	Каждый треугольник определяется именами вершин и длинами его сторон.
 •	Приложение должно обрабатывать ввод чисел с плавающей точкой:
+
 {
 vertices: ‘ABC’,
 a: 10,
@@ -28,10 +29,6 @@ c: 22.36
 
  */
 
-type ErrorResponse struct {
-	Status string
-	Reason string
-}
 
 type Triangle struct {
 	Vertices string
@@ -41,7 +38,6 @@ type Triangle struct {
 	Sqrt     float64
 }
 
-type BySquare []Triangle
 
 //formula gerona
 func getSquare(t Triangle) (float64, error) {
@@ -53,38 +49,27 @@ func getSquare(t Triangle) (float64, error) {
 	return res, nil
 }
 
-func main() {
+func main3() {
 
 	var err error
-	fmt.Printf("Enter an triangle object,  (print 'done' to exit adding):")
-	fmt.Print("For example {\"vertices\": \"ABC\",\"a\": 10,\"b\": 20,\"c\": 22.36}")
-
-	//s := `{"vertices":"ABC","a": 10,"b": 20,"c": 22.36}`
-
-	//var t Triangle
-	//json.Unmarshal([]byte(s), &t)
+	fmt.Printf("Enter three triangle objects\n")
+	fmt.Print("For example {\"vertices\": \"ABC\",\"a\": 10,\"b\": 20,\"c\": 22.36}\n")
 
 	trianglesArray := make([]Triangle, 0)
 
-	//parse jsons
-	//	var readLn string
-	fmt.Printf("\n")
-	for true {
+	for i:=0;i<3;i++ {
+		var t Triangle
 		in := bufio.NewReader(os.Stdin)
 		line, _ := in.ReadString('\n')
-		if line == "done\n" {
-			break
-		}
-		var t Triangle
 
 		err = json.Unmarshal([]byte(line), &t)
 		if err != nil {
-			//valid json
 			errHandler(err)
 			return
 		}
+
 		if t.A<=0 || t.B<=0 || t.C<=0{
-			errHandler(errors.New("Numbers cant be signeds"))
+			errHandler(errors.New(ERROR_SIGNED))
 			return
 		}
 		if len(t.Vertices)>3 {
@@ -96,7 +81,7 @@ func main() {
 		if err != nil {
 			//numbers may be not valid for a triangle, wrong sizes
 			errHandler(err)
-			break
+			return
 		}
 		trianglesArray = append(trianglesArray, t)
 	}
@@ -110,13 +95,4 @@ func main() {
 		fmt.Print(el.Vertices)
 		fmt.Print(" ")
 	}
-
-
-
-}
-
-func  errHandler(err error) {
-	errResponse := &ErrorResponse{Status:"failed", Reason:err.Error()}
-	result, _ := json.Marshal(errResponse)
-	fmt.Println(string(result))
 }

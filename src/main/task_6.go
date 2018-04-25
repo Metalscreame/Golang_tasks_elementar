@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"math"
-	"encoding/json"
 	"strconv"
 	"errors"
 )
@@ -16,12 +15,8 @@ import (
 
  */
 
-type ErrorResponse struct {
-	Status string
-	Reason string
-}
 
-func main() {
+func main6() {
 
 	var length, m int
 	var bufferString string
@@ -80,10 +75,5 @@ func main() {
 		startPoint++
 	}
 	fmt.Print(startPoint)
-}
-func  errHandler(err error) {
-	errResponse := &ErrorResponse{Status:"failed", Reason:err.Error()}
-	result, _ := json.Marshal(errResponse)
-	fmt.Println(string(result))
 }
 

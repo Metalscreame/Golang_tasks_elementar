@@ -4,7 +4,6 @@ import "errors"
 import (
 	"math"
 	"fmt"
-	"encoding/json"
 	"strconv"
 )
 
@@ -13,21 +12,18 @@ import (
 Вывести все числа Фибоначчи, которые удовлетворяют переданному в функцию ограничению:
 находятся в указанном диапазоне, либо имеют указанную длину.
 
-Входные параметры: объект Context с полями min и max, либо с полем length
+Входные параметры: объект ContextFibon с полями min и max, либо с полем length
 Выход: массив чисел
  */
-type ErrorResponse struct {
-	Status string
-	Reason string
-}
 
-type Context struct {
+
+type ContextFibon struct {
 	min    int
 	max    int
 	length int
 }
 
-func fibon(c Context) (res []int64, err error) {
+func fibon(c ContextFibon) (res []int64, err error) {
 	if c.length != 0 {
 		if c.length < 2 {
 			return nil, errors.New("Length can't be lower than 2")
@@ -68,9 +64,9 @@ func bineFunc(n float64) float64 {
 	return math.Round((math.Pow(phi, n) - math.Pow(-phi, -n)) / (2*phi - 1))
 }
 
-func main() {
+func main7() {
 	var array []int64
-	var c Context
+	var c ContextFibon
 	fmt.Print("\nChoose (length - type 1, limits - type 2): ")
 	var i, j int
 	var err error
@@ -138,11 +134,5 @@ func main() {
 		fmt.Print(" ", num)
 	}
 	fmt.Printf("")
-}
-
-func  errHandler(err error) {
-	errResponse := &ErrorResponse{Status:"failed", Reason:err.Error()}
-	result, _ := json.Marshal(errResponse)
-	fmt.Println(string(result))
 }
 
