@@ -31,7 +31,7 @@ func main() {
 	var buffer string
 
 	var err error
-	fmt.Printf("Enter the symbol to print and press Enter: ")
+	fmt.Print("Enter the symbol to print and press Enter: ")
 	_, err = fmt.Scanf("%s", &symbolToPrint)
 	if err != nil {
 		errHandler(err)
@@ -49,7 +49,7 @@ func main() {
 	}
 	//if float check
 	widt,err = strconv.Atoi(buffer)
-	if err != nil{
+	if err != nil || widt<=0{
 		errHandler(errors.New(WRONG_NUMBER))
 		return
 	}
@@ -61,9 +61,10 @@ func main() {
 		errHandler(err)
 		return
 	}
+
 	//if float check
 	length,err = strconv.Atoi(buffer)
-	if err != nil{
+	if err != nil || length<=0{
 		errHandler(errors.New(WRONG_NUMBER))
 		return
 	}

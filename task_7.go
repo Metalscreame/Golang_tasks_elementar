@@ -91,7 +91,7 @@ func main() {
 
 		//if float check
 		i,err = strconv.Atoi(bufferString)
-		if err != nil{
+		if err != nil || i<=0{
 			errHandler(errors.New("Wrong number"))
 			return
 		}
@@ -106,7 +106,7 @@ func main() {
 		}
 
 		i,err = strconv.Atoi(bufferString)
-		if err != nil{
+		if err != nil || i<=0{
 			errHandler(errors.New("Wrong number"))
 			return
 		}
@@ -115,7 +115,7 @@ func main() {
 		fmt.Scanf("%s", &bufferString)
 
 		j,err = strconv.Atoi(bufferString)
-		if err != nil{
+		if err != nil|| j<=0{
 			errHandler(errors.New("Wrong number"))
 			return
 		}
@@ -139,6 +139,7 @@ func main() {
 	}
 	fmt.Printf("")
 }
+
 func  errHandler(err error) {
 	errResponse := &ErrorResponse{Status:"failed", Reason:err.Error()}
 	result, _ := json.Marshal(errResponse)

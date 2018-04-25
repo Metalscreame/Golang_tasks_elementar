@@ -59,10 +59,10 @@ func main() {
 	fmt.Printf("Enter an triangle object,  (print 'done' to exit adding):")
 	fmt.Print("For example {\"vertices\": \"ABC\",\"a\": 10,\"b\": 20,\"c\": 22.36}")
 
-	s := `{"vertices":"ABC","a": 10,"b": 20,"c": 22.36}`
+	//s := `{"vertices":"ABC","a": 10,"b": 20,"c": 22.36}`
 
-	var t Triangle
-	json.Unmarshal([]byte(s), &t)
+	//var t Triangle
+	//json.Unmarshal([]byte(s), &t)
 
 	trianglesArray := make([]Triangle, 0)
 
@@ -81,7 +81,15 @@ func main() {
 		if err != nil {
 			//valid json
 			errHandler(err)
-			break
+			return
+		}
+		if t.A<=0 || t.B<=0 || t.C<=0{
+			errHandler(errors.New("Numbers cant be signeds"))
+			return
+		}
+		if len(t.Vertices)>3 {
+			errHandler(errors.New("Vertices can only exist of 3 symbols"))
+			return
 		}
 
 		t.Sqrt, err = getSquare(t) //calculate every's triangle square

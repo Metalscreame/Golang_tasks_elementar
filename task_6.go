@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"math"
 	"encoding/json"
+	"strconv"
+	"errors"
 )
 
 /*
@@ -22,23 +24,40 @@ type ErrorResponse struct {
 func main() {
 
 	var length, m int
-	var errorString string
+	var bufferString string
+	var err error
 	fmt.Print("Type length \"n\" : ")
-	_, err := fmt.Scanf("%d", &length)
+	_, err = fmt.Scanf("%s", &bufferString)
 	if err != nil {
-		fmt.Printf(err.Error())
-		fmt.Printf("\n")
-		fmt.Scanln(&errorString)
-		main()
+		errHandler(err)
+		return
 	}
+
+	//if float check
+	length,err= strconv.Atoi(bufferString)
+	if err != nil || length<=0{
+		errHandler(errors.New("Must be unsigned integer,cant be 0"))
+		return
+	}
+
 	fmt.Print("Type sqrt \"m\" : ")
-	_, err2 := fmt.Scanf("%d", &m)
-	if err2 != nil {
-		fmt.Printf(err2.Error())
-		fmt.Printf("\n")
-		fmt.Scanln(&errorString)
-		main()
+	_, err = fmt.Scanf("%s", &bufferString)
+	if err != nil {
+		errHandler(err)
+		return
 	}
+	//number check
+	m,err= strconv.Atoi(bufferString)
+	if err != nil || m<=0{
+		errHandler(errors.New("Must be unsigned integer and cant be 0"))
+		return
+	}
+
+	if m <=2{
+		errHandler(errors.New("There are no numbers sqrt of which isnt less them m"))
+		return
+	}
+
 
 	startPointFl := math.Ceil(math.Sqrt(float64(m)))
 	fmt.Printf("The sqrt of m is %f", math.Sqrt(float64(m)))

@@ -4,74 +4,83 @@ import (
 	"fmt"
 	"strconv"
 	"encoding/json"
+	"errors"
 )
 type ErrorResponse struct {
 	Status string
 	Reason string
 }
 
-func isPalindrome(input string) (bool, []string) {
-	var flag bool
-	var res []string
+func isPalindrome(input string) (detectionFlag bool, result []string) {
 	if len(input)%2 == 0 {
 		for i := 0; i < len(input)/2; i++ {
 			if input[i] != input[len(input)-i-1] {
-				flag = false
+				detectionFlag = false
 				continue
 			} else {
-				flag = true
-				res = append(res, string(input[i]))
+				detectionFlag = true
+				result = append(result, string(input[i]))
 			}
 		}
 	} else {
 		runes := []rune(input)
-		var res2 []string
+		var resultTemp []string
 		substringed := string(runes[1:len(input)])
 		for i := 0; i < len(substringed)/2; i++ {
 			if substringed[i] != substringed[len(substringed)-i-1] {
-				flag = false
+				detectionFlag = false
 				continue
 			} else {
-				flag = true
-				res = append(res, string(substringed[i]))
+				detectionFlag = true
+				result = append(result, string(substringed[i]))
 			}
 		}
-		//if flag is still false, we'll cut the last char and will see if there is a lonidrome or not
+		// we'll cut the last char and will see if there is a lonidrome or not
 		substringed2 := string(runes[0:len(input)-1])
+
 		for i := 0; i < len(substringed2)/2; i++ {
 			if substringed2[i] != substringed2[len(substringed2)-i-1] {
-				flag = false
+				detectionFlag = false
 				continue
 			} else {
-				flag = true
-				res2 = append(res2, string(substringed2[i]))
+				detectionFlag = true
+				resultTemp = append(resultTemp, string(substringed2[i]))
 			}
 		}
 
-		if len(res) < len(res2) {
-			res = res2
+		if len(result) < len(resultTemp) {
+			result = resultTemp
 		} // else do nothing
 	}
 
-	i := len(res)
+	//adding second half of the palondrome to the result string
+	i := len(result)
 	for i > 0 {
-		res = append(res, string(res[i-1]))
+		result = append(result, string(result[i-1]))
 		i--
 	}
-
-	return flag, res
+	return detectionFlag, result
 }
 
 func main() {
 	var input int
-	fmt.Println("Enter a number to if its a polindrome or not: ")
+	fmt.Print("Enter a number to if its a polindrome or not: ")
 
 	var err error
-	_, err = fmt.Scanf("%d", &input)
+	var buffer string
+	_, err = fmt.Scanf("%s", &buffer)
 	if err != nil {
 		errHandler(err)
 		return
 	}
+
+	//if float check
+	input,err = strconv.Atoi(buffer)
+	if err != nil || input<=0{
+		errHandler(errors.New("Wrong input"))
+		return
+	}
+
 
 	srtNumber := strconv.Itoa(input)
 	flag, res := isPalindrome(srtNumber)
