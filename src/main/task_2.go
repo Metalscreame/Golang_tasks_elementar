@@ -13,16 +13,17 @@ import (
 	"fmt"
 	"errors"
 	"math"
+	"os"
 )
 
-func main2() {
+func taskTwoMain() {
 	var a,b,c,d float64
 
 	fmt.Print("Enter a: ")
 	_,err:=fmt.Scanf("%f",&a)
 	if err!= nil || a<=0{
 		errHandler(errors.New(ERROR_WRONG_INPUT))
-		return
+		os.Exit(1)
 	}
 
 	fmt.Println()
@@ -30,7 +31,7 @@ func main2() {
 	_,err=fmt.Scanf("%f",&b)
 	if err!= nil || a<=0{
 		errHandler(errors.New(ERROR_WRONG_INPUT))
-		return
+		os.Exit(1)
 	}
 
 	fmt.Println()
@@ -38,7 +39,7 @@ func main2() {
 	_,err=fmt.Scanf("%f",&c)
 	if err!= nil || a<=0{
 		errHandler(errors.New(ERROR_WRONG_INPUT))
-		return
+		os.Exit(1)
 	}
 
 	fmt.Println()
@@ -46,10 +47,11 @@ func main2() {
 	_,err=fmt.Scanf("%f",&d)
 	if err!= nil || a<=0{
 		errHandler(errors.New(ERROR_WRONG_INPUT))
-		return
+		os.Exit(1)
 	}
 
-	if math.Sqrt(a)+math.Sqrt(b) <= math.Sqrt(c)+math.Sqrt(d)  && a<c && b<d{
+	fmt.Print("\n")
+	if a*a+b*b <= c*c+d*d  && a<c && b<d{
 		fmt.Println("AB -> CD")
 	} else if math.Sqrt(a)+math.Sqrt(b) >= math.Sqrt(c)+math.Sqrt(d) && a>c && b>d{
 		fmt.Println("AB <- CD")

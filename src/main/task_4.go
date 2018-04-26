@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strconv"
 	"errors"
+	"os"
 )
 
 /*
@@ -17,7 +18,7 @@ import (
  */
 
 
-func main4() {
+func taskFourMain() {
 	var input int
 	fmt.Print("Enter a number to if its a polindrome or not: ")
 
@@ -26,14 +27,14 @@ func main4() {
 	_, err = fmt.Scanf("%s", &buffer)
 	if err != nil {
 		errHandler(err)
-		return
+		os.Exit(1)
 	}
 
 	//if float check
 	input,err = strconv.Atoi(buffer)
 	if err != nil || input<=0{
 		errHandler(errors.New(ERROR_SIGNED))
-		return
+		os.Exit(1)
 	}
 
 	srtNumber := strconv.Itoa(input)

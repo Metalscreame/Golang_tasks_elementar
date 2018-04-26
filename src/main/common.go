@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strconv"
 	"errors"
+	"os"
 )
 
 const(
@@ -35,31 +36,31 @@ func main()  {
 	_, err := fmt.Scanf("%s", &buffer)
 	if err != nil {
 		errHandler(err)
-		return
+		os.Exit(1)
 	}
 
 	//if float check
 	task,err = strconv.Atoi(buffer)
 	if err != nil || task<1 ||task>7{
 		errHandler(errors.New(ERROR_WRONG_MAIN_INPUT))
-		return
+		os.Exit(1)
 	}
 
 	switch task {
 	case 1:
-		main1()
+		taskOneMain()
 	case 2:
-		main2()
+		taskTwoMain()
 	case 3:
-		main3()
+		taskThreeMain()
 	case 4:
-		main4()
+		taskFourMain()
 	case 5:
-		main5()
+		taskFiveMain()
 	case 6:
-		main6()
+		taskSixMain()
 	case 7:
-		main7()
+		taskSevenMain()
 
 	}
 

@@ -5,6 +5,7 @@ import (
 	"math"
 	"strconv"
 	"errors"
+	"os"
 )
 
 /*
@@ -13,7 +14,7 @@ import (
 Выход: строка с рядом чисел
  */
 
-func main6() {
+func taskSixMain() {
 
 	var length, m int
 	var bufferString string
@@ -22,32 +23,32 @@ func main6() {
 	_, err = fmt.Scanf("%s", &bufferString)
 	if err != nil {
 		errHandler(err)
-		return
+		os.Exit(1)
 	}
 
 	//if float check
 	length,err= strconv.Atoi(bufferString)
 	if err != nil || length<=0{
 		errHandler(errors.New(ERROR_SIGNED))
-		return
+		os.Exit(1)
 	}
 
 	fmt.Print("Type sqrt \"m\" : ")
 	_, err = fmt.Scanf("%s", &bufferString)
 	if err != nil {
 		errHandler(err)
-		return
+		os.Exit(1)
 	}
 	//number check
 	m,err= strconv.Atoi(bufferString)
 	if err != nil || m<=0{
 		errHandler(errors.New(ERROR_SIGNED))
-		return
+		os.Exit(1)
 	}
 
 	if m <=2{
 		errHandler(errors.New("There are no numbers sqrt of which isnt less them m"))
-		return
+		os.Exit(1)
 	}
 
 

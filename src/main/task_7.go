@@ -5,6 +5,7 @@ import (
 	"math"
 	"fmt"
 	"strconv"
+	"os"
 )
 
 /*
@@ -27,49 +28,8 @@ type ContextFibon struct {
 	length int
 }
 
-func fibon(c ContextFibon) (res []int64, err error) {
-	if c.length != 0 {
-		if c.length < 2 {
-			return nil, errors.New("Length can't be lower than 2")
-		}
-		res := make([]int64, c.length)
-		res[0] = 0
-		res[1] = 1
-		for i := 2; i < c.length; i++ {
-			res[i] = res[i-1] + res[i-2]
-		}
-		return res, nil
-	} else if c.max != 0 { // min can be 0 but max - cant
-		res := make([]int64, 0) // init zero size, it will be realocated while append
-		from := math.Ceil(math.Log((float64(c.min)-0.5)*math.Sqrt(5)) / math.Log(math.Phi))
-		to := math.Floor(math.Log((float64(c.max)+0.5)*math.Sqrt(5)) / math.Log(math.Phi))
-
-		a := bineFunc(from)
-		i := from + 1
-		b := bineFunc(i)
-
-		for i < to {
-			res = append(res, int64(b))
-			b += a
-			a = b - a
-			i++
-		}
-		return res, nil
-
-	} else if c.min == c.max {
-		return nil, errors.New("Start can't be the same as max")
-	} else {
-		return nil, errors.New(ERROR_WRONG_INPUT)
-	}
-}
-
-func bineFunc(n float64) float64 {
-	phi := 1 + math.Sqrt(5)
-	return math.Round((math.Pow(phi, n) - math.Pow(-phi, -n)) / (2*phi - 1))
-}
-
-func main7() {
-	var array []int64
+func taskSevenMain() {
+	var array []int
 	var c ContextFibon
 	fmt.Print("\nChoose (length - type 1, limits - type 2): ")
 	var firstInput, secondInput int
@@ -78,7 +38,7 @@ func main7() {
 	_, err = fmt.Scanf("%d", &firstInput)
 	if err != nil {
 		errHandler(err)
-		return
+		os.Exit(1)
 	}
 
 	if firstInput == LENGTH {
@@ -86,14 +46,14 @@ func main7() {
 		_, err = fmt.Scanf("%s", &bufferString)
 		if err != nil {
 			errHandler(err)
-			return
+			os.Exit(1)
 		}
 
 		//if float check
-		firstInput,err = strconv.Atoi(bufferString)
-		if err != nil || firstInput <=0{
+		firstInput, err = strconv.Atoi(bufferString)
+		if err != nil || firstInput <= 0 {
 			errHandler(errors.New(ERROR_SIGNED))
-			return
+			os.Exit(1)
 		}
 		c.length = firstInput
 
@@ -102,35 +62,35 @@ func main7() {
 		_, err = fmt.Scanf("%s", &bufferString)
 		if err != nil { // syntax with errors checking
 			errHandler(err)
-			return
+			os.Exit(1)
 		}
 
-		firstInput,err = strconv.Atoi(bufferString)
-		if err != nil || firstInput <=0{
+		firstInput, err = strconv.Atoi(bufferString)
+		if err != nil || firstInput <= 0 {
 			errHandler(errors.New(ERROR_SIGNED))
-			return
+			os.Exit(1)
 		}
 
 		fmt.Print("Enter max point: ")
 		fmt.Scanf("%s", &bufferString)
 
-		secondInput,err = strconv.Atoi(bufferString)
-		if err != nil|| secondInput <=0{
+		secondInput, err = strconv.Atoi(bufferString)
+		if err != nil || secondInput <= 0 {
 			errHandler(errors.New("Wrong number"))
-			return
+			os.Exit(1)
 		}
 
 		c.min = firstInput
 		c.max = secondInput
 	} else {
 		errHandler(errors.New("Wrong firstInput, you can choose only beetwen 1 or 2"))
-		return
+		os.Exit(1)
 	}
 
 	array, err = fibon(c)
 	if err != nil {
 		errHandler(err)
-		return
+		os.Exit(1)
 	}
 
 	fmt.Printf(" The numbers are: \n")
@@ -140,3 +100,51 @@ func main7() {
 	fmt.Printf("")
 }
 
+
+func fibon(c ContextFibon) (res []int, err error) {
+	if c.length != 0 {
+		if c.length < 2 {
+			return nil, errors.New("Length can't be lower than 2")
+		}
+		res := make([]int, c.length)
+		res[0] = 0
+		res[1] = 1
+		for i := 2; i < c.length; i++ {
+			res[i] = res[i-1] + res[i-2]
+		}
+		return res, nil
+	} else if c.max != 0 { // if it goes here, then its mode 2
+
+		res := make([]int, 0)
+		//var fibon [] int64
+
+		var current, previous, prePrevious int
+		for i := 0; ; i++ {
+			if i == 0 {
+				current=0
+			}else if i == 1{
+				previous=1
+				current=1
+			}else {
+				current = previous + prePrevious
+				prePrevious = previous
+				previous = current
+			}
+			if current >= c.max {
+				break
+			}
+			if current >= c.min {
+				res = append(res, current)
+			}
+		}
+		if len(res) == 0 {
+			return res, errors.New("There are 0 numbers at this limits")
+		}
+		return res, nil
+
+	} else if c.min == c.max {
+		return nil, errors.New("Start can't be the same as max")
+	} else {
+		return nil, errors.New(ERROR_WRONG_INPUT)
+	}
+}

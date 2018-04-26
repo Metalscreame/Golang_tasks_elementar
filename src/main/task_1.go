@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"errors"
 	"strconv"
+	 "os"
 )
 
 /*
@@ -20,7 +21,7 @@ import (
 
 
 
-func main1() {
+func taskOneMain() {
 	var symbolToPrint string
 	var widt, length int
 	var buffer string
@@ -33,33 +34,33 @@ func main1() {
 	}else if len(symbolToPrint)>1{
 		err:= errors.New(ERROR_ONE_SYMBOL)
 		errHandler(err)
-		return
+		os.Exit(1)
 	}
 
 	fmt.Printf("Enter the width and press Enter: ")
 	_, err = fmt.Scanf("%s", &buffer)
 	if err != nil {
 		errHandler(err)
-		return
+		os.Exit(1)
 	}
 	//if float check
 	widt,err = strconv.Atoi(buffer)
 	if err != nil || widt<=0{
 		errHandler(errors.New(ERROR_SIGNED))
-		return
+		os.Exit(1)
 	}
 
 	fmt.Printf("Enter the length and press Enter: ")
 	_, err = fmt.Scanf("%s", &buffer)
 	if err != nil {
 		errHandler(err)
-		return
+		os.Exit(1)
 	}
 
 	length,err = strconv.Atoi(buffer)
 	if err != nil || length<=0{
 		errHandler(errors.New(ERROR_SIGNED))
-		return
+		os.Exit(1)
 	}
 
 	fmt.Printf("\n\n")

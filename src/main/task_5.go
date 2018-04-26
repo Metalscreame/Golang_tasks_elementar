@@ -31,7 +31,7 @@ type Result struct {
 	HardFormula int
 }
 
-func main5() {
+func taskFiveMain() {
 	var context Context
 
 	fmt.Print("Enter context, example:  {\"min\":320123,\"max\":320320}\n")
@@ -41,26 +41,26 @@ func main5() {
 	err := json.Unmarshal([]byte(line), &context)
 	if err != nil {
 		errHandler(err)
-		return
+		os.Exit(1)
 	}
 
 	if context.Max <= 0 || context.Min <= 0 {
 		errHandler(errors.New(ERROR_SIGNED))
-		return
+		os.Exit(1)
 	}
 
 	if len(strconv.Itoa(context.Max)) < 6 || len(strconv.Itoa(context.Min)) < 6 {
 		errHandler(errors.New("Cant have less than 6 numbers"))
-		return
+		os.Exit(1)
 	} else if context.Min > context.Max {
 		errHandler(errors.New("Min cant be higher than max"))
-		return
+		os.Exit(1)
 	}
 
 	//same length check
 	if len(strconv.Itoa(int(context.Max))) != len(strconv.Itoa(int(context.Min))) {
 		errHandler(errors.New(ERROR_SAME_LENGTH))
-		return
+		os.Exit(1)
 	}
 
 	var result Result
