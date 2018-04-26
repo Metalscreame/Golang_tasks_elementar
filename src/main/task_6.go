@@ -9,12 +9,9 @@ import (
 
 /*
 Вывести через запятую ряд длиной n, состоящий из натуральных чисел, квадрат которых не меньше заданного m.
-
 Входные параметры: длина и значение минимального квадрата
 Выход: строка с рядом чисел
-
  */
-
 
 func main6() {
 
@@ -31,7 +28,7 @@ func main6() {
 	//if float check
 	length,err= strconv.Atoi(bufferString)
 	if err != nil || length<=0{
-		errHandler(errors.New("Must be unsigned integer,cant be 0"))
+		errHandler(errors.New(ERROR_SIGNED))
 		return
 	}
 
@@ -44,7 +41,7 @@ func main6() {
 	//number check
 	m,err= strconv.Atoi(bufferString)
 	if err != nil || m<=0{
-		errHandler(errors.New("Must be unsigned integer and cant be 0"))
+		errHandler(errors.New(ERROR_SIGNED))
 		return
 	}
 

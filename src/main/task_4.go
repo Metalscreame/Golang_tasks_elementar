@@ -16,6 +16,37 @@ import (
 
  */
 
+
+func main4() {
+	var input int
+	fmt.Print("Enter a number to if its a polindrome or not: ")
+
+	var err error
+	var buffer string
+	_, err = fmt.Scanf("%s", &buffer)
+	if err != nil {
+		errHandler(err)
+		return
+	}
+
+	//if float check
+	input,err = strconv.Atoi(buffer)
+	if err != nil || input<=0{
+		errHandler(errors.New(ERROR_SIGNED))
+		return
+	}
+
+	srtNumber := strconv.Itoa(input)
+	flag, res := isPalindrome(srtNumber)
+	if flag == false {
+		fmt.Println("0")
+	} else {
+		for _, el := range res {
+			fmt.Print(el)
+		}
+	}
+}
+
 func isPalindrome(input string) (detectionFlag bool, result []string) {
 	if len(input)%2 == 0 {
 		for i := 0; i < len(input)/2; i++ {
@@ -55,7 +86,7 @@ func isPalindrome(input string) (detectionFlag bool, result []string) {
 
 		if len(result) < len(resultTemp) {
 			result = resultTemp
-		} // else do nothing
+		}
 	}
 
 	//adding second half of the palondrome to the result string
@@ -67,33 +98,3 @@ func isPalindrome(input string) (detectionFlag bool, result []string) {
 	return detectionFlag, result
 }
 
-func main4() {
-	var input int
-	fmt.Print("Enter a number to if its a polindrome or not: ")
-
-	var err error
-	var buffer string
-	_, err = fmt.Scanf("%s", &buffer)
-	if err != nil {
-		errHandler(err)
-		return
-	}
-
-	//if float check
-	input,err = strconv.Atoi(buffer)
-	if err != nil || input<=0{
-		errHandler(errors.New(ERROR_SIGNED))
-		return
-	}
-
-
-	srtNumber := strconv.Itoa(input)
-	flag, res := isPalindrome(srtNumber)
-	if flag == false {
-		fmt.Println("0")
-	} else {
-		for _, el := range res {
-			fmt.Print(el)
-		}
-	}
-}

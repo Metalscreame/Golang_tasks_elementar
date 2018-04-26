@@ -6,7 +6,6 @@ import (
 	"bufio"
 	"errors"
 	"encoding/json"
-	//"strconv"
 	"strconv"
 )
 
@@ -27,6 +26,11 @@ type Context struct {
 	Max int
 }
 
+type Result struct {
+	EasyFormula int
+	HardFormula int
+}
+
 func main5() {
 	var context Context
 
@@ -44,6 +48,7 @@ func main5() {
 		errHandler(errors.New(ERROR_SIGNED))
 		return
 	}
+
 	if len(strconv.Itoa(context.Max)) < 6 || len(strconv.Itoa(context.Min)) < 6 {
 		errHandler(errors.New("Cant have less than 6 numbers"))
 		return
@@ -58,10 +63,12 @@ func main5() {
 		return
 	}
 
-	countEasy := easyWay(context.Min, context.Max)
-	fmt.Println("Easy count : ", countEasy)
-	countHard := hardWay(context.Min, context.Max)
-	fmt.Println("Hard count : ", countHard)
+	var result Result
+	result.EasyFormula = easyWay(context.Min, context.Max)
+	result.HardFormula = hardWay(context.Min, context.Max)
+
+	r, _ := json.Marshal(result)
+	fmt.Printf("%s", r)
 
 }
 

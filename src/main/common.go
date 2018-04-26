@@ -12,7 +12,7 @@ const(
 	ERROR_ONE_SYMBOL = "There can be only one symbol"
 	ERROR_SAME_LENGTH = "Must be the same lengths"
 	ERROR_WRONG_INPUT = "Wrong input"
-	ERROR_WRONG_MAIN_INPUT = "Numbers cant be signed, or float or 0 and must be from 1 to 7"
+	ERROR_WRONG_MAIN_INPUT = "Wrong input. Numbers cant be signed, or float or 0 and must be from 1 to 7"
 )
 
 

@@ -15,7 +15,6 @@ import (
 	"math"
 )
 
-
 func main2() {
 	var a,b,c,d float64
 

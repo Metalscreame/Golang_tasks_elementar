@@ -50,40 +50,15 @@ func getSquare(t Triangle) (float64, error) {
 }
 
 func main3() {
-
 	var err error
+
 	fmt.Printf("Enter three triangle objects\n")
-	fmt.Print("For example {\"vertices\": \"ABC\",\"a\": 10,\"b\": 20,\"c\": 22.36}\n")
+	fmt.Print("For example : \n {\"vertices\": \"ABC\",\"a\": 10,\"b\": 20,\"c\": 22.36}\n")
 
-	trianglesArray := make([]Triangle, 0)
-
-	for i:=0;i<3;i++ {
-		var t Triangle
-		in := bufio.NewReader(os.Stdin)
-		line, _ := in.ReadString('\n')
-
-		err = json.Unmarshal([]byte(line), &t)
-		if err != nil {
-			errHandler(err)
-			return
-		}
-
-		if t.A<=0 || t.B<=0 || t.C<=0{
-			errHandler(errors.New(ERROR_SIGNED))
-			return
-		}
-		if len(t.Vertices)>3 {
-			errHandler(errors.New("Vertices can only exist of 3 symbols"))
-			return
-		}
-
-		t.Sqrt, err = getSquare(t) //calculate every's triangle square
-		if err != nil {
-			//numbers may be not valid for a triangle, wrong sizes
-			errHandler(err)
-			return
-		}
-		trianglesArray = append(trianglesArray, t)
+	trianglesArray,err := getTriangles()
+	if err!= nil{
+		errHandler(err)
+		return
 	}
 
 	//sorting
@@ -95,4 +70,35 @@ func main3() {
 		fmt.Print(el.Vertices)
 		fmt.Print(" ")
 	}
+}
+
+func getTriangles() ([]Triangle,error){
+	var err error
+	triangleSlice := make([]Triangle, 0)
+	for i:=0;i<3;i++ {
+		var t Triangle
+		in := bufio.NewReader(os.Stdin)
+		line, _ := in.ReadString('\n')
+
+		err = json.Unmarshal([]byte(line), &t)
+		if err != nil {
+			return triangleSlice,err
+		}
+
+		if t.A<=0 || t.B<=0 || t.C<=0{
+			return triangleSlice,errors.New(ERROR_SIGNED)
+		}
+		if len(t.Vertices)>3 {
+			return triangleSlice,errors.New("Vertices can only exist of 3 symbols")
+		}
+
+		t.Sqrt, err = getSquare(t) //calculate every's triangle square
+		if err != nil {
+			//numbers may be not valid for a triangle, wrong sizes
+			return triangleSlice,err
+		}
+		triangleSlice = append(triangleSlice, t)
+	}
+
+	return triangleSlice,nil
 }

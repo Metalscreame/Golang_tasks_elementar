@@ -16,6 +16,10 @@ import (
 Выход: массив чисел
  */
 
+const (
+	LENGTH = 1
+	LIMITS = 2
+)
 
 type ContextFibon struct {
 	min    int
@@ -55,7 +59,7 @@ func fibon(c ContextFibon) (res []int64, err error) {
 	} else if c.min == c.max {
 		return nil, errors.New("Start can't be the same as max")
 	} else {
-		return nil, errors.New("Input data is wrong")
+		return nil, errors.New(ERROR_WRONG_INPUT)
 	}
 }
 
@@ -68,16 +72,16 @@ func main7() {
 	var array []int64
 	var c ContextFibon
 	fmt.Print("\nChoose (length - type 1, limits - type 2): ")
-	var i, j int
+	var firstInput, secondInput int
 	var err error
 	var bufferString string
-	_, err = fmt.Scanf("%d", &i)
+	_, err = fmt.Scanf("%d", &firstInput)
 	if err != nil {
 		errHandler(err)
 		return
 	}
 
-	if i == 1 {
+	if firstInput == LENGTH {
 		fmt.Print("Enter length: ")
 		_, err = fmt.Scanf("%s", &bufferString)
 		if err != nil {
@@ -86,14 +90,14 @@ func main7() {
 		}
 
 		//if float check
-		i,err = strconv.Atoi(bufferString)
-		if err != nil || i<=0{
-			errHandler(errors.New("Wrong number"))
+		firstInput,err = strconv.Atoi(bufferString)
+		if err != nil || firstInput <=0{
+			errHandler(errors.New(ERROR_SIGNED))
 			return
 		}
-		c.length = i
+		c.length = firstInput
 
-	} else if i == 2 {
+	} else if firstInput == LIMITS {
 		fmt.Print("Enter min point: ")
 		_, err = fmt.Scanf("%s", &bufferString)
 		if err != nil { // syntax with errors checking
@@ -101,25 +105,25 @@ func main7() {
 			return
 		}
 
-		i,err = strconv.Atoi(bufferString)
-		if err != nil || i<=0{
-			errHandler(errors.New("Wrong number"))
+		firstInput,err = strconv.Atoi(bufferString)
+		if err != nil || firstInput <=0{
+			errHandler(errors.New(ERROR_SIGNED))
 			return
 		}
 
 		fmt.Print("Enter max point: ")
 		fmt.Scanf("%s", &bufferString)
 
-		j,err = strconv.Atoi(bufferString)
-		if err != nil|| j<=0{
+		secondInput,err = strconv.Atoi(bufferString)
+		if err != nil|| secondInput <=0{
 			errHandler(errors.New("Wrong number"))
 			return
 		}
 
-		c.min = i
-		c.max = j
+		c.min = firstInput
+		c.max = secondInput
 	} else {
-		errHandler(errors.New("Wrong input, you can choose only beetwen 1 or 2"))
+		errHandler(errors.New("Wrong firstInput, you can choose only beetwen 1 or 2"))
 		return
 	}
 
