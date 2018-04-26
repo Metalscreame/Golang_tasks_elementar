@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"errors"
 	"strconv"
-	 "os"
+	"os"
 )
 
 /*
@@ -19,8 +19,6 @@ import (
 
  */
 
-
-
 func taskOneMain() {
 	var symbolToPrint string
 	var widt, length int
@@ -29,36 +27,30 @@ func taskOneMain() {
 	var err error
 	fmt.Print("Enter one symbol to print and press Enter: ")
 	_, err = fmt.Scanf("%s", &symbolToPrint)
-	if err != nil {
-		errHandler(err)
-	}else if len(symbolToPrint)>1{
-		err:= errors.New(ERROR_ONE_SYMBOL)
-		errHandler(err)
+	simpleErrorChecker(err, "")
+
+	if len(symbolToPrint) > 1 {
+		errHandler(errors.New(ERROR_ONE_SYMBOL))
 		os.Exit(1)
 	}
 
 	fmt.Printf("Enter the width and press Enter: ")
 	_, err = fmt.Scanf("%s", &buffer)
-	if err != nil {
-		errHandler(err)
-		os.Exit(1)
-	}
+	simpleErrorChecker(err, "")
+
 	//if float check
-	widt,err = strconv.Atoi(buffer)
-	if err != nil || widt<=0{
+	widt, err = strconv.Atoi(buffer)
+	if err != nil || widt <= 0 {
 		errHandler(errors.New(ERROR_SIGNED))
 		os.Exit(1)
 	}
 
 	fmt.Printf("Enter the length and press Enter: ")
 	_, err = fmt.Scanf("%s", &buffer)
-	if err != nil {
-		errHandler(err)
-		os.Exit(1)
-	}
+	simpleErrorChecker(err,"")
 
-	length,err = strconv.Atoi(buffer)
-	if err != nil || length<=0{
+	length, err = strconv.Atoi(buffer)
+	if err != nil || length <= 0 {
 		errHandler(errors.New(ERROR_SIGNED))
 		os.Exit(1)
 	}
@@ -75,5 +67,3 @@ func taskOneMain() {
 		fmt.Print("\n")
 	}
 }
-
-

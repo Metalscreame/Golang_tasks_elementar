@@ -56,15 +56,12 @@ func taskThreeMain() {
 	fmt.Print("For example : \n {\"vertices\": \"ABC\",\"a\": 10,\"b\": 20,\"c\": 22.36}\n")
 
 	trianglesArray, err := getTriangles()
-	if err != nil {
-		errHandler(err)
-		os.Exit(1)
-	}
+	simpleErrorChecker(err, "")
 
 	if trianglesArray[0].Vertices == trianglesArray[1].Vertices ||
 		trianglesArray[0].Vertices == trianglesArray[2].Vertices ||
 		trianglesArray[1].Vertices == trianglesArray[2].Vertices {
-		errHandler(err)
+		errHandler(errors.New("Names cant be the same"))
 		os.Exit(1)
 	}
 

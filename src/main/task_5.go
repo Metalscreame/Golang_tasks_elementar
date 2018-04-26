@@ -39,10 +39,7 @@ func taskFiveMain() {
 	line, _ := in.ReadString('\n')
 
 	err := json.Unmarshal([]byte(line), &context)
-	if err != nil {
-		errHandler(err)
-		os.Exit(1)
-	}
+	simpleErrorChecker(err,"")
 
 	if context.Max <= 0 || context.Min <= 0 {
 		errHandler(errors.New(ERROR_SIGNED))
@@ -109,7 +106,6 @@ func easyWay(min, max int) (count int) {
 		if isLucky {
 			count++
 		}
-
 	}
 	return count
 }

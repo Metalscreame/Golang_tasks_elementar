@@ -21,10 +21,7 @@ func taskSixMain() {
 	var err error
 	fmt.Print("Type length \"n\" : ")
 	_, err = fmt.Scanf("%s", &bufferString)
-	if err != nil {
-		errHandler(err)
-		os.Exit(1)
-	}
+	simpleErrorChecker(err,"")
 
 	//if float check
 	length,err= strconv.Atoi(bufferString)
@@ -35,10 +32,8 @@ func taskSixMain() {
 
 	fmt.Print("Type sqrt \"m\" : ")
 	_, err = fmt.Scanf("%s", &bufferString)
-	if err != nil {
-		errHandler(err)
-		os.Exit(1)
-	}
+	simpleErrorChecker(err,"")
+
 	//number check
 	m,err= strconv.Atoi(bufferString)
 	if err != nil || m<=0{

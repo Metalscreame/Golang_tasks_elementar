@@ -2,7 +2,6 @@ package main
 
 import "errors"
 import (
-	"math"
 	"fmt"
 	"strconv"
 	"os"
@@ -44,10 +43,7 @@ func taskSevenMain() {
 	if firstInput == LENGTH {
 		fmt.Print("Enter length: ")
 		_, err = fmt.Scanf("%s", &bufferString)
-		if err != nil {
-			errHandler(err)
-			os.Exit(1)
-		}
+		simpleErrorChecker(err,"")
 
 		//if float check
 		firstInput, err = strconv.Atoi(bufferString)
@@ -60,10 +56,8 @@ func taskSevenMain() {
 	} else if firstInput == LIMITS {
 		fmt.Print("Enter min point: ")
 		_, err = fmt.Scanf("%s", &bufferString)
-		if err != nil { // syntax with errors checking
-			errHandler(err)
-			os.Exit(1)
-		}
+		simpleErrorChecker(err,"")
+
 
 		firstInput, err = strconv.Atoi(bufferString)
 		if err != nil || firstInput <= 0 {
@@ -88,10 +82,7 @@ func taskSevenMain() {
 	}
 
 	array, err = fibon(c)
-	if err != nil {
-		errHandler(err)
-		os.Exit(1)
-	}
+	simpleErrorChecker(err,"")
 
 	fmt.Printf(" The numbers are: \n")
 	for _, num := range array {

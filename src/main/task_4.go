@@ -25,10 +25,7 @@ func taskFourMain() {
 	var err error
 	var buffer string
 	_, err = fmt.Scanf("%s", &buffer)
-	if err != nil {
-		errHandler(err)
-		os.Exit(1)
-	}
+	simpleErrorChecker(err,"")
 
 	//if float check
 	input,err = strconv.Atoi(buffer)

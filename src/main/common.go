@@ -8,40 +8,45 @@ import (
 	"os"
 )
 
-const(
-	ERROR_SIGNED = "Numbers cant be signed, or float or 0"
-	ERROR_ONE_SYMBOL = "There can be only one symbol"
-	ERROR_SAME_LENGTH = "Must be the same lengths"
-	ERROR_WRONG_INPUT = "Wrong input"
+const (
+	ERROR_SIGNED           = "Numbers cant be signed, or float or 0"
+	ERROR_ONE_SYMBOL       = "There can be only one symbol"
+	ERROR_SAME_LENGTH      = "Must be the same lengths"
+	ERROR_WRONG_INPUT      = "Wrong input"
 	ERROR_WRONG_MAIN_INPUT = "Wrong input. Numbers cant be signed, or float or 0 and must be from 1 to 7"
 )
-
 
 type ErrorResponse struct {
 	Status string
 	Reason string
 }
 
+func simpleErrorChecker(err error, possibleMessage string) {
+	if err != nil && possibleMessage != "" {
+		errHandler(errors.New(possibleMessage))
+		os.Exit(1)
+	} else if err != nil {
+		errHandler(err)
+		os.Exit(1)
+	}
+}
 
-func  errHandler(err error) {
-	errResponse := &ErrorResponse{Status:"failed", Reason:err.Error()}
+func errHandler(err error) {
+	errResponse := &ErrorResponse{Status: "failed", Reason: err.Error()}
 	result, _ := json.Marshal(errResponse)
 	fmt.Println(string(result))
 }
 
-func main()  {
+func main() {
 	var buffer string
 	var task int
 	fmt.Print("Choose a task (1-7): ")
 	_, err := fmt.Scanf("%s", &buffer)
-	if err != nil {
-		errHandler(err)
-		os.Exit(1)
-	}
+	simpleErrorChecker(err, "")
 
 	//if float check
-	task,err = strconv.Atoi(buffer)
-	if err != nil || task<1 ||task>7{
+	task, err = strconv.Atoi(buffer)
+	if err != nil || task < 1 || task > 7 {
 		errHandler(errors.New(ERROR_WRONG_MAIN_INPUT))
 		os.Exit(1)
 	}
