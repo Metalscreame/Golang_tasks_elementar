@@ -17,7 +17,6 @@ import (
 
  */
 
-
 func taskFourMain() {
 	var input int
 	fmt.Print("Enter a number to if its a polindrome or not: ")
@@ -25,12 +24,17 @@ func taskFourMain() {
 	var err error
 	var buffer string
 	_, err = fmt.Scanf("%s", &buffer)
-	simpleErrorChecker(err,"")
+	simpleErrorChecker(err, "")
 
 	//if float check
-	input,err = strconv.Atoi(buffer)
-	if err != nil || input<=0{
+	input, err = strconv.Atoi(buffer)
+	if err != nil || input <= 0 {
 		errHandler(errors.New(ERROR_SIGNED))
+		os.Exit(1)
+	}
+
+	if len(buffer) < 10 {
+		errHandler(errors.New("Length cant be less than 10"))
 		os.Exit(1)
 	}
 
@@ -38,7 +42,10 @@ func taskFourMain() {
 	flag, res := isPalindrome(srtNumber)
 	if flag == false {
 		fmt.Println("0")
-	} else {
+	}else if len(res)<10{
+		errHandler(errors.New("Length of polindrome cant be less than 10"))
+		os.Exit(1)
+	}else {
 		for _, el := range res {
 			fmt.Print(el)
 		}
@@ -84,7 +91,13 @@ func isPalindrome(input string) (detectionFlag bool, result []string) {
 
 		if len(result) < len(resultTemp) {
 			result = resultTemp
+			detectionFlag = true
+		} else if len(result) == 0 && len(resultTemp) == 0 {
+		} else {
+			detectionFlag = true //все проверки сделаны для случая, когда при нечетном числе
+			// при втором сабстринге не показался ниодин палиндром и флаг не выставился
 		}
+
 	}
 
 	//adding second half of the palondrome to the result string
@@ -95,4 +108,3 @@ func isPalindrome(input string) (detectionFlag bool, result []string) {
 	}
 	return detectionFlag, result
 }
-

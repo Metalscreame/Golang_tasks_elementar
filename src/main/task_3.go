@@ -53,7 +53,7 @@ func taskThreeMain() {
 	var err error
 
 	fmt.Printf("Enter three triangle objects\n")
-	fmt.Print("For example : \n {\"vertices\": \"ABC\",\"a\": 10,\"b\": 20,\"c\": 22.36}\n")
+	fmt.Print("For example : \n{\"vertices\": \"ABC\",\"a\": 10,\"b\": 20,\"c\": 22.36}\n")
 
 	trianglesArray, err := getTriangles()
 	simpleErrorChecker(err, "")
