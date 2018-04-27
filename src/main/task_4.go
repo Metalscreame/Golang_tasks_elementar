@@ -15,6 +15,9 @@ import (
 Входные параметры: число
 Выход: извлечённый из числа палиндром либо 0, если извлечение не удалось.
 
+// поискать точку старта где i==i+1
+потом от центра начать двигаться вбока 
+
  */
 
 func taskFourMain() {
@@ -28,13 +31,8 @@ func taskFourMain() {
 
 	//if float check
 	input, err = strconv.Atoi(buffer)
-	if err != nil || input <= 0 {
+	if err != nil || input <= 9 {
 		errHandler(errors.New(ERROR_SIGNED))
-		os.Exit(1)
-	}
-
-	if len(buffer) < 10 {
-		errHandler(errors.New("Length cant be less than 10"))
 		os.Exit(1)
 	}
 
@@ -42,9 +40,6 @@ func taskFourMain() {
 	flag, res := isPalindrome(srtNumber)
 	if flag == false {
 		fmt.Println("0")
-	}else if len(res)<10{
-		errHandler(errors.New("Length of polindrome cant be less than 10"))
-		os.Exit(1)
 	}else {
 		for _, el := range res {
 			fmt.Print(el)
