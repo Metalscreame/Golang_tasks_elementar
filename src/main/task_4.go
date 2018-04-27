@@ -103,3 +103,7 @@ func isPalindrome(input string) (detectionFlag bool, result []string) {
 	}
 	return detectionFlag, result
 }
+
+func findCenter()  {
+	
+}
