@@ -39,7 +39,7 @@ func taskFiveMain() {
 	line, _ := in.ReadString('\n')
 
 	err := json.Unmarshal([]byte(line), &context)
-	simpleErrorChecker(err,"")
+	simpleErrorChecker(err, "")
 
 	if context.Max <= 0 || context.Min <= 0 {
 		errHandler(errors.New(ERROR_SIGNED))
@@ -86,18 +86,12 @@ func easyWay(min, max int) (count int) {
 
 		var firstThreeSum, secondThreeSum int
 
-		for j := 0; j < len(digits)/2; j++ {
+		for j := 0; j < 3; j++ {
 			firstThreeSum += digits[j]
 		}
 
-		if len(digits)%2 == 0 {
-			for j := len(digits) / 2; j < len(digits); j++ {
-				secondThreeSum += digits[j]
-			}
-		} else { // if length of a ticket is not even
-			for j := (len(digits) / 2) + 1; j < len(digits); j++ {
-				secondThreeSum += digits[j]
-			}
+		for j := len(digits) - 3; j < len(digits); j++ {
+			secondThreeSum += digits[j]
 		}
 
 		if firstThreeSum == secondThreeSum {
