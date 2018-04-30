@@ -27,7 +27,7 @@ func taskOneMain() {
 
 	fmt.Print("Enter one symbol to print and press Enter: ")
 	_, err = fmt.Scanf("%s", &symbolToPrint)
-	simpleErrorChecker(err, "")
+	simpleErrorsChecker(err, "")
 
 	if len(symbolToPrint) > 1 {
 		errHandler(errors.New(ERROR_ONE_SYMBOL))
@@ -36,7 +36,7 @@ func taskOneMain() {
 
 	fmt.Printf("Enter the length and press Enter: ")
 	_, err = fmt.Scanf("%s", &buffer)
-	simpleErrorChecker(err, "")
+	simpleErrorsChecker(err, "")
 
 	length, err = strconv.Atoi(buffer)
 	if err != nil || length <= 0 {
@@ -46,7 +46,7 @@ func taskOneMain() {
 
 	fmt.Printf("Enter the width and press Enter: ")
 	_, err = fmt.Scanf("%s", &buffer)
-	simpleErrorChecker(err, "")
+	simpleErrorsChecker(err, "")
 
 	//if float check
 	widt, err = strconv.Atoi(buffer)

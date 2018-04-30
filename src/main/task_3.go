@@ -56,16 +56,8 @@ func taskThreeMain() {
 	fmt.Print("For example : \n{\"vertices\": \"ABC\",\"a\": 10,\"b\": 20,\"c\": 22.36}\n")
 
 	trianglesArray, err := getTriangles()
-	simpleErrorChecker(err, "")
+	simpleErrorsChecker(err, "")
 
-	if trianglesArray[0].Vertices == trianglesArray[1].Vertices ||
-		trianglesArray[0].Vertices == trianglesArray[2].Vertices ||
-		trianglesArray[1].Vertices == trianglesArray[2].Vertices {
-		errHandler(errors.New("Names cant be the same"))
-		os.Exit(1)
-	}
-
-	//sorting
 	sort.Slice(trianglesArray, func(i, j int) bool {
 		return trianglesArray[i].Sqrt < trianglesArray[j].Sqrt
 	})
@@ -110,6 +102,14 @@ func getTriangles() ([]Triangle, error) {
 		triangleSlice = append(triangleSlice, t)
 	}
 
+	if triangleSlice[0].Vertices == triangleSlice[1].Vertices ||
+		triangleSlice[0].Vertices == triangleSlice[2].Vertices ||
+		triangleSlice[1].Vertices == triangleSlice[2].Vertices {
+		errHandler(errors.New("Names cant be the same"))
+		os.Exit(1)
+	}else{
+		return triangleSlice, nil
+	}
 	return triangleSlice, nil
 }
 
@@ -145,7 +145,6 @@ func checkNameAndNumbers(t Triangle) bool {
 			return false
 		}
 	}
-	//wont be reached
+	//must not be reached
 	return false
-
 }

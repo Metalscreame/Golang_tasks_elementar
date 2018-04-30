@@ -21,7 +21,7 @@ type ErrorResponse struct {
 	Reason string
 }
 
-func simpleErrorChecker(err error, possibleMessage string) {
+func simpleErrorsChecker(err error, possibleMessage string) {
 	if err != nil && possibleMessage != "" {
 		errHandler(errors.New(possibleMessage))
 		os.Exit(1)
@@ -42,7 +42,7 @@ func main() {
 	var task int
 	fmt.Print("Choose a task (1-7): ")
 	_, err := fmt.Scanf("%s", &buffer)
-	simpleErrorChecker(err, "")
+	simpleErrorsChecker(err, "")
 
 	//if float check
 	task, err = strconv.Atoi(buffer)

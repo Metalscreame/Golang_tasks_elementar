@@ -12,7 +12,7 @@ import (
 Вывести все числа Фибоначчи, которые удовлетворяют переданному в функцию ограничению:
 находятся в указанном диапазоне, либо имеют указанную длину.
 
-Входные параметры: объект ContextFibon с полями min и max, либо с полем length
+Входные параметры: объект ContextFibonacci с полями min и max, либо с полем length
 Выход: массив чисел
  */
 
@@ -21,7 +21,7 @@ const (
 	LIMITS = 2
 )
 
-type ContextFibon struct {
+type ContextFibonacci struct {
 	min    int
 	max    int
 	length int
@@ -29,7 +29,7 @@ type ContextFibon struct {
 
 func taskSevenMain() {
 	var array []int
-	var c ContextFibon
+	var c ContextFibonacci
 	fmt.Print("\nChoose (length - type 1, limits - type 2): ")
 	var firstInput, secondInput int
 	var err error
@@ -43,7 +43,7 @@ func taskSevenMain() {
 	if firstInput == LENGTH {
 		fmt.Print("Enter length: ")
 		_, err = fmt.Scanf("%s", &bufferString)
-		simpleErrorChecker(err,"")
+		simpleErrorsChecker(err,"")
 
 		//if float check
 		firstInput, err = strconv.Atoi(bufferString)
@@ -56,7 +56,7 @@ func taskSevenMain() {
 	} else if firstInput == LIMITS {
 		fmt.Print("Enter min point: ")
 		_, err = fmt.Scanf("%s", &bufferString)
-		simpleErrorChecker(err,"")
+		simpleErrorsChecker(err,"")
 
 
 		firstInput, err = strconv.Atoi(bufferString)
@@ -82,7 +82,7 @@ func taskSevenMain() {
 	}
 
 	array, err = fibon(c)
-	simpleErrorChecker(err,"")
+	simpleErrorsChecker(err,"")
 
 	fmt.Printf(" The numbers are: \n")
 	for _, num := range array {
@@ -92,7 +92,7 @@ func taskSevenMain() {
 }
 
 
-func fibon(c ContextFibon) (res []int, err error) {
+func fibon(c ContextFibonacci) (res []int, err error) {
 	if c.length != 0 {
 		if c.length < 2 {
 			return nil, errors.New("Length can't be lower than 2")
@@ -105,10 +105,7 @@ func fibon(c ContextFibon) (res []int, err error) {
 		}
 		return res, nil
 	} else if c.max != 0 { // if it goes here, then its mode 2
-
 		res := make([]int, 0)
-		//var fibon [] int64
-
 		var current, previous, prePrevious int
 		for i := 0; ; i++ {
 			if i == 0 {

@@ -2,7 +2,6 @@ package classWork
 
 import (
 	"fmt"
-	"os/signal"
 )
 
 //types для своих переменных, как джеенерики
@@ -39,7 +38,7 @@ type RAM struct {
 var computer Computer
 
 
-func main() {
+func classWork2() {
 
 	computer.applications=make(map[string]int)
 

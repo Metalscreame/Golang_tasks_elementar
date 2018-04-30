@@ -39,7 +39,7 @@ func taskFiveMain() {
 	line, _ := in.ReadString('\n')
 
 	err := json.Unmarshal([]byte(line), &context)
-	simpleErrorChecker(err, "")
+	simpleErrorsChecker(err, "")
 
 	if context.Max <= 0 || context.Min <= 0 {
 		errHandler(errors.New(ERROR_SIGNED))
