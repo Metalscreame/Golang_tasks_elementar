@@ -1,5 +1,3 @@
-
-
 package classWork
 
 import (
@@ -8,7 +6,7 @@ import (
 "math/rand"
 )
 
-func mainclass() {
+func classWork1() {
 	//fmt.Print(findAvarage(1,2,3,4))
 
 	slice := make([]int, 13)
