@@ -1,7 +1,8 @@
 package classWork
 
 import (
-"fmt"
+	"fmt"
+	"os/signal"
 )
 
 //types для своих переменных, как джеенерики
@@ -41,6 +42,7 @@ var computer Computer
 func main() {
 
 	computer.applications=make(map[string]int)
+
 	fmt.Println("Enter CPU name: ")
 	fmt.Scanf("%s\n",&computer.name)
 	//	fmt.Println()
@@ -106,18 +108,13 @@ func main() {
 }
 
 func (a *APP) addApplication() {
-	//stdin := bufio.NewReader(os.Stdin)
-	//stdin.ReadString('\n')
 	fmt.Print("Enter new App CPU mhz : ")
 	fmt.Scanf("%d\n",a.cpu.MHz)
 	fmt.Println()
 
-
 	fmt.Print("Enter new App HDD volume: ")
 	fmt.Scanf("%d\n",a.volumeHDD)
 	fmt.Println()
-
-
 
 	fmt.Print("Enter new App RAM volume: ")
 	fmt.Scanf("%d\n",a.ram)
