@@ -35,10 +35,7 @@ func taskSevenMain() {
 	var err error
 	var bufferString string
 	_, err = fmt.Scanf("%d", &firstInput)
-	if err != nil {
-		errHandler(err)
-		os.Exit(1)
-	}
+	simpleErrorsChecker(err,"")
 
 	if firstInput == LENGTH {
 		fmt.Print("Enter length: ")
@@ -57,7 +54,6 @@ func taskSevenMain() {
 		fmt.Print("Enter min point: ")
 		_, err = fmt.Scanf("%s", &bufferString)
 		simpleErrorsChecker(err,"")
-
 
 		firstInput, err = strconv.Atoi(bufferString)
 		if err != nil || firstInput <= 0 {
@@ -88,7 +84,6 @@ func taskSevenMain() {
 	for _, num := range array {
 		fmt.Print(" ", num)
 	}
-	fmt.Printf("")
 }
 
 

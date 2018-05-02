@@ -21,6 +21,10 @@ type ErrorResponse struct {
 	Reason string
 }
 
+
+/*
+ If there is no specific err message, send to possibleMessage ""
+ */
 func simpleErrorsChecker(err error, possibleMessage string) {
 	if err != nil && possibleMessage != "" {
 		errHandler(errors.New(possibleMessage))
