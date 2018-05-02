@@ -24,6 +24,8 @@ import (
 type Context struct {
 	Min int
 	Max int
+	CountEasyFormula int
+	CountHardFormula int
 }
 
 type Result struct {
@@ -60,19 +62,16 @@ func taskFiveMain() {
 		os.Exit(1)
 	}
 
-	var result Result
-	result.EasyFormula = easyWay(context.Min, context.Max)
-	result.HardFormula = hardWay(context.Min, context.Max)
-
-	r, _ := json.Marshal(result)
+	context.easyWay()
+	context.hardWay()
+	r, _ := json.Marshal(context)
 	fmt.Printf("%s", r)
 
 }
 
-func easyWay(min, max int) (count int) {
+func (c * Context) easyWay() {
 	var isLucky bool
-
-	for i := min; i <= max; i++ {
+	for i := c.Min; i <= c.Max; i++ {
 		isLucky = false
 		digits := make([]int, 0)
 
@@ -98,16 +97,15 @@ func easyWay(min, max int) (count int) {
 			isLucky = true
 		}
 		if isLucky {
-			count++
+			c.CountEasyFormula++
 		}
 	}
-	return count
 }
 
-func hardWay(min, max int) (count int) {
+func (c * Context)hardWay() {
 	var isLucky bool
 
-	for i := min; i <= max; i++ {
+	for i := c.Min; i <= c.Max; i++ {
 		isLucky = false
 		digits := make([]int, 0)
 		var evenSum, oddSum int
@@ -130,8 +128,7 @@ func hardWay(min, max int) (count int) {
 			isLucky = true
 		}
 		if isLucky {
-			count++
+			c.CountHardFormula++
 		}
 	}
-	return count
 }

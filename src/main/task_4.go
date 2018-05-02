@@ -71,7 +71,7 @@ func isPalindrome(input string) (detectionFlag bool, res []string) {
 
 		j := equalsIndex_j
 		for i := equalsIndex_i; i <= equalsIndex_j; i++ { // if found checks if its a polindrome from i to j
-			if input[i] == input[j] {
+			if input[i] == input[j]&& equalsFlag == true{
 				detectionFlag = true
 			} else {
 				detectionFlag = false
