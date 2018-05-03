@@ -9,11 +9,12 @@ import (
 )
 
 const (
-	ERROR_SIGNED           = "Numbers cant be signed, or float or 0"
+	ERROR_SIGNED           = "Numbers cant be signed, or float or 0 or string"
 	ERROR_ONE_SYMBOL       = "There can be only one symbol"
 	ERROR_SAME_LENGTH      = "Must be the same lengths"
 	ERROR_WRONG_INPUT      = "Wrong input"
 	ERROR_WRONG_MAIN_INPUT = "Wrong input. Numbers cant be signed, or float or 0 and must be from 1 to 7"
+	ERROR_CODE = 1
 )
 
 type ErrorResponse struct {
@@ -22,37 +23,19 @@ type ErrorResponse struct {
 }
 
 
-/*
- If there is no specific err message, send to possibleMessage ""
- */
-func simpleErrorsChecker(err error, possibleMessage string) {
-	if err != nil && possibleMessage != "" {
-		errHandler(errors.New(possibleMessage))
-		os.Exit(1)
-	} else if err != nil {
-		errHandler(err)
-		os.Exit(1)
-	}
-}
-
-func errHandler(err error) {
-	errResponse := &ErrorResponse{Status: "failed", Reason: err.Error()}
-	result, _ := json.Marshal(errResponse)
-	fmt.Println(string(result))
-}
 
 func main() {
 	var buffer string
 	var task int
 	fmt.Print("Choose a task (1-7): ")
 	_, err := fmt.Scanf("%s", &buffer)
-	simpleErrorsChecker(err, "")
+	simpleErrorsChecker(err)
 
 	//if float check
 	task, err = strconv.Atoi(buffer)
 	if err != nil || task < 1 || task > 7 {
 		errHandler(errors.New(ERROR_WRONG_MAIN_INPUT))
-		os.Exit(1)
+		os.Exit(ERROR_CODE)
 	}
 
 	switch task {
@@ -70,7 +53,43 @@ func main() {
 		taskSixMain()
 	case 7:
 		taskSevenMain()
-
 	}
+}
 
+
+
+/*
+ If there is no specific err message, send to possibleMessage ""
+ */
+func simpleErrorsChecker(err error) {
+	if err != nil {
+		errHandler(err)
+		os.Exit(ERROR_CODE)
+	}
+}
+
+func float64InputChecker(num float64,err error)  {
+	if err != nil || num <= 0 {
+		errHandler(errors.New(ERROR_WRONG_INPUT))
+		os.Exit(ERROR_CODE)
+	}
+}
+
+func int32InputChecker(num int, err error) {
+	if err != nil || num <= 0 {
+		errHandler(errors.New(ERROR_SIGNED))
+		os.Exit(ERROR_CODE)
+	}
+}
+
+
+func errHandler(err error) {
+	errResponse := &ErrorResponse{Status: "failed", Reason: err.Error()}
+	result, _ := json.Marshal(errResponse)
+	fmt.Println(string(result))
+}
+
+func floatToString(num float64) string {
+	// to convert a float number to a string
+	return strconv.FormatFloat(num, 'f', 6, 64)
 }

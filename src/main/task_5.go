@@ -22,13 +22,10 @@ import (
  */
 
 type Context struct {
-	Min int
-	Max int
-}
-
-type Result struct {
-	EasyFormula int
-	HardFormula int
+	Min              int
+	Max              int
+	CountEasyFormula int
+	CountHardFormula int
 }
 
 func taskFiveMain() {
@@ -39,40 +36,20 @@ func taskFiveMain() {
 	line, _ := in.ReadString('\n')
 
 	err := json.Unmarshal([]byte(line), &context)
-	simpleErrorsChecker(err, "")
+	simpleErrorsChecker(err)
 
-	if context.Max <= 0 || context.Min <= 0 {
-		errHandler(errors.New(ERROR_SIGNED))
-		os.Exit(1)
-	}
+	context.valuesChecker()
+	context.easyWay()
+	context.hardWay()
 
-	if len(strconv.Itoa(context.Max)) < 6 || len(strconv.Itoa(context.Min)) < 6 {
-		errHandler(errors.New("Cant have less than 6 numbers"))
-		os.Exit(1)
-	} else if context.Min > context.Max {
-		errHandler(errors.New("Min cant be higher than max"))
-		os.Exit(1)
-	}
-
-	//same length check
-	if len(strconv.Itoa(int(context.Max))) != len(strconv.Itoa(int(context.Min))) {
-		errHandler(errors.New(ERROR_SAME_LENGTH))
-		os.Exit(1)
-	}
-
-	var result Result
-	result.EasyFormula = easyWay(context.Min, context.Max)
-	result.HardFormula = hardWay(context.Min, context.Max)
-
-	r, _ := json.Marshal(result)
-	fmt.Printf("%s", r)
-
+	result, _ := json.Marshal(context)
+	fmt.Printf("%s", result)
 }
 
-func easyWay(min, max int) (count int) {
+func (c *Context) easyWay() {
 	var isLucky bool
 
-	for i := min; i <= max; i++ {
+	for i := c.Min; i <= c.Max; i++ {
 		isLucky = false
 		digits := make([]int, 0)
 
@@ -98,16 +75,14 @@ func easyWay(min, max int) (count int) {
 			isLucky = true
 		}
 		if isLucky {
-			count++
+			c.CountEasyFormula++
 		}
 	}
-	return count
 }
 
-func hardWay(min, max int) (count int) {
+func (c *Context) hardWay() {
 	var isLucky bool
-
-	for i := min; i <= max; i++ {
+	for i := c.Min; i <= c.Max; i++ {
 		isLucky = false
 		digits := make([]int, 0)
 		var evenSum, oddSum int
@@ -130,8 +105,28 @@ func hardWay(min, max int) (count int) {
 			isLucky = true
 		}
 		if isLucky {
-			count++
+			c.CountHardFormula++
 		}
 	}
-	return count
+}
+
+func (c *Context) valuesChecker(){
+
+	if c.Max <= 0 || c.Min <= 0 {
+		errHandler(errors.New(ERROR_SIGNED))
+		os.Exit(1)
+	}
+
+	if len(strconv.Itoa(c.Max)) < 6 || len(strconv.Itoa(c.Min)) < 6 {
+		errHandler(errors.New("Cant have less than 6 numbers"))
+		os.Exit(1)
+	} else if c.Min > c.Max {
+		errHandler(errors.New("Min cant be higher than max"))
+		os.Exit(1)
+	}
+	//same length check
+	if len(strconv.Itoa(int(c.Max))) != len(strconv.Itoa(int(c.Min))) {
+		errHandler(errors.New(ERROR_SAME_LENGTH))
+		os.Exit(1)
+	}
 }

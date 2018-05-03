@@ -9,7 +9,6 @@ import (
 	"errors"
 	"encoding/json"
 	"regexp"
-	"strconv"
 )
 
 /*
@@ -29,7 +28,12 @@ b: 20,
 c: 22.36
 }
 
+{"vertices": "ABC","a": 10,"b": 20,"c": 22.36}
+{"vertices": "CBA","a": 16,"b": 15,"c": 6}
+{"vertices": "BAC","a": 10,"b": 9,"c": 16}
  */
+
+const NUMBER_OF_TRIANBLES  = 3
 
 type Triangle struct {
 	Vertices string
@@ -39,32 +43,24 @@ type Triangle struct {
 	Sqrt     float64
 }
 
-//formula gerona
-func getSquare(t Triangle) (float64, error) {
-	p := 0.5 * (t.A + t.B + t.C)
-	res := math.Sqrt(p * (p - t.A) * (p - t.B) * (p - t.C))
-	if res == math.NaN() || res == 0 {
-		return res, errors.New("Numbers are wrong for a triangle")
-	}
-	return res, nil
-}
 
 func taskThreeMain() {
-	var err error
-
-	fmt.Printf("Enter three triangle objects\n")
-	fmt.Print("For example : \n{\"vertices\": \"ABC\",\"a\": 10,\"b\": 20,\"c\": 22.36}\n")
 
 	trianglesArray, err := getTriangles()
-	simpleErrorsChecker(err, "")
+	simpleErrorsChecker(err)
 
 	sort.Slice(trianglesArray, func(i, j int) bool {
 		return trianglesArray[i].Sqrt < trianglesArray[j].Sqrt
 	})
+	printResultTriangles(trianglesArray)
+}
 
-	for _, el := range trianglesArray {
-		fmt.Print(el.Vertices + " " + strconv.FormatFloat(el.Sqrt, 'E', -1, 64))
-		fmt.Print(" ")
+//gerons formula
+func (t * Triangle) calculateSquare() {
+	p := 0.5 * (t.A + t.B + t.C)
+	t.Sqrt = math.Sqrt(p * (p - t.A) * (p - t.B) * (p - t.C))
+	if t.Sqrt == math.NaN() || t.Sqrt == 0 {
+		simpleErrorsChecker(errors.New("Numbers are wrong for a triangle"))
 	}
 }
 
@@ -72,45 +68,41 @@ func getTriangles() ([]Triangle, error) {
 	var err error
 	var regex = regexp.MustCompile(`^[A-C]{3}$`)
 	triangleSlice := make([]Triangle, 0)
-	for i := 0; i < 3; i++ {
+
+	fmt.Printf("Enter three triangle objects\n")
+	fmt.Print("For example : \n{\"vertices\": \"ABC\",\"a\": 10,\"b\": 20,\"c\": 22.36}\n")
+
+	for i := 0; i < NUMBER_OF_TRIANBLES; i++ {
 		var t Triangle
 		in := bufio.NewReader(os.Stdin)
 		line, _ := in.ReadString('\n')
 
 		err = json.Unmarshal([]byte(line), &t)
-		if err != nil {
-			return nil, err
-		}
+		simpleErrorsChecker(err)
 
 		if regex.MatchString(t.Vertices) != true {
-			return nil, errors.New("Wrong name")
+			simpleErrorsChecker(errors.New("Wrong name"))
 		}
 
 		if t.A <= 0 || t.B <= 0 || t.C <= 0 {
-			return nil, errors.New(ERROR_SIGNED)
+			simpleErrorsChecker(errors.New(ERROR_SIGNED))
 		}
 
 		if !checkNameAndNumbers(t) {
-			return nil, errors.New("Names dont fit actual values")
+			simpleErrorsChecker(errors.New("Names dont fit actual values"))
 		}
 
-		t.Sqrt, err = getSquare(t) //calculate every's triangle square
-		if err != nil {
-			//numbers may be not valid for a triangle, wrong sizes
-			return nil, err
-		}
+		t.calculateSquare() //calculate every's triangle square
 		triangleSlice = append(triangleSlice, t)
 	}
 
 	if triangleSlice[0].Vertices == triangleSlice[1].Vertices ||
 		triangleSlice[0].Vertices == triangleSlice[2].Vertices ||
 		triangleSlice[1].Vertices == triangleSlice[2].Vertices {
-		errHandler(errors.New("Names cant be the same"))
-		os.Exit(1)
+		return nil, errors.New("Names cant be the same")
 	}else{
 		return triangleSlice, nil
 	}
-	return triangleSlice, nil
 }
 
 func checkNameAndNumbers(t Triangle) bool {
@@ -148,3 +140,12 @@ func checkNameAndNumbers(t Triangle) bool {
 	//must not be reached
 	return false
 }
+
+func printResultTriangles(trianglesArray []Triangle)  {
+	for _, el := range trianglesArray {
+		fmt.Printf(el.Vertices + " " + floatToString(el.Sqrt))
+		fmt.Print(" ")
+	}
+}
+
+

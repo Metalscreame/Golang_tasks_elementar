@@ -5,7 +5,6 @@ import (
 	"math"
 	"strconv"
 	"errors"
-	"os"
 )
 
 /*
@@ -14,59 +13,59 @@ import (
 Выход: строка с рядом чисел
  */
 
-func taskSixMain() {
+ var m,length int
 
-	var length, m int
+func taskSixMain() {
+	taskSixInput()
+	printTaskSixResult(getStartPoint())
+}
+
+func taskSixInput()  {
 	var bufferString string
-	var err error
+
 	fmt.Print("Type length \"n\" : ")
-	_, err = fmt.Scanf("%s", &bufferString)
-	simpleErrorsChecker(err,"")
+	_, err := fmt.Scanf("%s", &bufferString)
+	simpleErrorsChecker(err)
 
 	//if float check
-	length,err= strconv.Atoi(bufferString)
-	if err != nil || length<=0{
-		errHandler(errors.New(ERROR_SIGNED))
-		os.Exit(1)
-	}
+	length, err = strconv.Atoi(bufferString)
+	int32InputChecker(length, err)
 
 	fmt.Print("Type sqrt \"m\" : ")
 	_, err = fmt.Scanf("%s", &bufferString)
-	simpleErrorsChecker(err,"")
+	simpleErrorsChecker(err)
 
-	//number check
-	m,err= strconv.Atoi(bufferString)
-	if err != nil || m<=0{
-		errHandler(errors.New(ERROR_SIGNED))
-		os.Exit(1)
+	m, err = strconv.Atoi(bufferString)
+	int32InputChecker(m, err)
+
+	if m <= 2 {
+		simpleErrorsChecker(errors.New("There are no numbers sqrt of which isnt less them m"))
 	}
+}
 
-	if m <=2{
-		errHandler(errors.New("There are no numbers sqrt of which isnt less them m"))
-		os.Exit(1)
-	}
+func getStartPoint() int {
+	sqrtOfM :=getSqrt(m)
+	fmt.Printf("The sqrt of m is %f", sqrtOfM)
 
-
-	startPointFl := math.Ceil(math.Sqrt(float64(m)))
-	fmt.Printf("The sqrt of m is %f", math.Sqrt(float64(m)))
-	startPoint := int(startPointFl)
+	startPoint := int(math.Ceil(sqrtOfM))
 	fmt.Printf("\nNumbers cant be lower than %d", startPoint)
 
 	//for example, if the number is 100 then ceil ceil will return 10 which is sqrt of 100
-	if int(math.Sqrt(float64(m))) == startPoint {
+	if int(sqrtOfM) == startPoint {
 		startPoint++
 	}
-
-	fmt.Printf("\nThe result is: \n")
-	for i := 0; i < int(length)-1; i++ {
-		if startPoint == m {
-			fmt.Printf("\n\nNumbers cant be printed anymore, because numbers has reached m\n")
-			break
-		}
-		fmt.Print(startPoint)
-		fmt.Print(",")
-		startPoint++
-	}
-	fmt.Print(startPoint)
+	return startPoint
 }
 
+func printTaskSixResult(startPoint int)  {
+	fmt.Printf("\nThe result is: \n")
+	for i := 0; i < int(length); i++ {
+		fmt.Print(startPoint)
+		fmt.Print(" ")
+		startPoint++
+	}
+}
+
+func getSqrt(num int) (float64)  {
+	return math.Sqrt(float64(m))
+}

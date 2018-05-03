@@ -10,59 +10,13 @@ package main
 
 import (
 	"fmt"
-	"errors"
-	"os"
 )
 
 func taskTwoMain() {
-	var a, b, c, d float64
-
-	fmt.Print("Enter a: ")
-	_, err := fmt.Scanf("%f", &a)
-	if err != nil || a <= 0 {
-		errHandler(errors.New(ERROR_WRONG_INPUT))
-		os.Exit(1)
-	}
-
-	fmt.Println()
-	fmt.Print("Enter b: ")
-	_, err = fmt.Scanf("%f", &b)
-	if err != nil || a <= 0 {
-		errHandler(errors.New(ERROR_WRONG_INPUT))
-		os.Exit(1)
-	}
-
-	fmt.Println()
-	fmt.Print("Enter c: ")
-	_, err = fmt.Scanf("%f", &c)
-	if err != nil || a <= 0 {
-		errHandler(errors.New(ERROR_WRONG_INPUT))
-		os.Exit(1)
-	}
-
-	fmt.Println()
-	fmt.Print("Enter d: ")
-	_, err = fmt.Scanf("%f", &d)
-	if err != nil || a <= 0 {
-		errHandler(errors.New(ERROR_WRONG_INPUT))
-		os.Exit(1)
-	}
-
-	fmt.Println()
-	result := convertsCheck(a, b, c, d)
-	if !result {
-		result = convertsCheck(c, d, a, b)
-		if !result {
-			fmt.Println("0")
-		} else {
-			fmt.Println("AB -> CD")
-
-		}
-	} else {
-		fmt.Println("AB <- CD")
-	}
-
+	a, b, c, d := inputConverts()
+	printConvertsResult(a, b, c, d )
 }
+
 func convertsCheck(A, B, C, D float64) bool {
 
 	if A < B {
@@ -87,4 +41,39 @@ func convertsCheck(A, B, C, D float64) bool {
 	}
 
 	return (A*B > 2*C*D) && ((C*C+D*D-B*B)*(C*C+D*D-A*A) <= A*A*B*B-4*A*B*C*D+4*C*C*D*D)
+}
+
+func inputConverts() (a, b, c, d float64) {
+
+	fmt.Print("Enter a: ")
+	_, err := fmt.Scanf("%f", &a)
+	float64InputChecker(a,err)
+
+	fmt.Print("Enter b: ")
+	_, err = fmt.Scanf("%f", &b)
+	float64InputChecker(b,err)
+
+	fmt.Print("Enter c: ")
+	_, err = fmt.Scanf("%f", &c)
+	float64InputChecker(c,err)
+
+	fmt.Print("Enter d: ")
+	_, err = fmt.Scanf("%f", &d)
+	float64InputChecker(d,err)
+
+	return a, b, c, d
+}
+
+func printConvertsResult(a,b,c,d float64){
+	result := convertsCheck(a, b, c, d)
+	if !result {
+		result = convertsCheck(c, d, a, b)
+		if !result {
+			fmt.Println("0")
+		} else {
+			fmt.Println("AB -> CD")
+		}
+	} else {
+		fmt.Println("AB <- CD")
+	}
 }
