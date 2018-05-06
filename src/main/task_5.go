@@ -29,7 +29,19 @@ type Context struct {
 }
 
 func taskFiveMain() {
-	var context Context
+	result, _ := json.Marshal(getContext())
+	fmt.Printf("\n%s", result)
+}
+
+func getContext() (context Context) {
+	context = taskFiveInput()
+	context.valuesChecker()
+	context.easyWay()
+	context.hardWay()
+	return
+}
+
+func taskFiveInput() (context Context) {
 
 	fmt.Print("Enter context, example:  {\"min\":320123,\"max\":320320}\n")
 	in := bufio.NewReader(os.Stdin)
@@ -37,13 +49,7 @@ func taskFiveMain() {
 
 	err := json.Unmarshal([]byte(line), &context)
 	simpleErrorsChecker(err)
-
-	context.valuesChecker()
-	context.easyWay()
-	context.hardWay()
-
-	result, _ := json.Marshal(context)
-	fmt.Printf("%s", result)
+	return
 }
 
 func (c *Context) easyWay() {
@@ -110,23 +116,19 @@ func (c *Context) hardWay() {
 	}
 }
 
-func (c *Context) valuesChecker(){
+func (c *Context) valuesChecker() {
 
 	if c.Max <= 0 || c.Min <= 0 {
-		errHandler(errors.New(ERROR_SIGNED))
-		os.Exit(1)
+		simpleErrorsChecker(errors.New(ERROR_SIGNED))
 	}
 
 	if len(strconv.Itoa(c.Max)) < 6 || len(strconv.Itoa(c.Min)) < 6 {
-		errHandler(errors.New("Cant have less than 6 numbers"))
-		os.Exit(1)
+		simpleErrorsChecker(errors.New("Cant have less than 6 numbers"))
 	} else if c.Min > c.Max {
-		errHandler(errors.New("Min cant be higher than max"))
-		os.Exit(1)
+		simpleErrorsChecker(errors.New("Min cant be higher than max"))
 	}
 	//same length check
 	if len(strconv.Itoa(int(c.Max))) != len(strconv.Itoa(int(c.Min))) {
-		errHandler(errors.New(ERROR_SAME_LENGTH))
-		os.Exit(1)
+		simpleErrorsChecker(errors.New(ERROR_SAME_LENGTH))
 	}
 }

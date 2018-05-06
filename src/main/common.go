@@ -14,7 +14,7 @@ const (
 	ERROR_SAME_LENGTH      = "Must be the same lengths"
 	ERROR_WRONG_INPUT      = "Wrong input"
 	ERROR_WRONG_MAIN_INPUT = "Wrong input. Numbers cant be signed, or float or 0 and must be from 1 to 7"
-	ERROR_CODE = 1
+	ERROR_CODE             = 1
 )
 
 type ErrorResponse struct {
@@ -22,23 +22,25 @@ type ErrorResponse struct {
 	Reason string
 }
 
-
-
 func main() {
+	taskDispatcher(mainInput())
+}
+
+func mainInput() (taskNum int) {
 	var buffer string
-	var task int
 	fmt.Print("Choose a task (1-7): ")
 	_, err := fmt.Scanf("%s", &buffer)
 	simpleErrorsChecker(err)
 
-	//if float check
-	task, err = strconv.Atoi(buffer)
-	if err != nil || task < 1 || task > 7 {
-		errHandler(errors.New(ERROR_WRONG_MAIN_INPUT))
-		os.Exit(ERROR_CODE)
+	taskNum, err = strconv.Atoi(buffer)
+	if err != nil || taskNum < 1 || taskNum > 7 {
+		simpleErrorsChecker(errors.New(ERROR_WRONG_MAIN_INPUT))
 	}
+	return
+}
 
-	switch task {
+func taskDispatcher(num int) {
+	switch num {
 	case 1:
 		taskOneMain()
 	case 2:
@@ -56,11 +58,6 @@ func main() {
 	}
 }
 
-
-
-/*
- If there is no specific err message, send to possibleMessage ""
- */
 func simpleErrorsChecker(err error) {
 	if err != nil {
 		errHandler(err)
@@ -68,7 +65,7 @@ func simpleErrorsChecker(err error) {
 	}
 }
 
-func float64InputChecker(num float64,err error)  {
+func float64InputChecker(num float64, err error) {
 	if err != nil || num <= 0 {
 		errHandler(errors.New(ERROR_WRONG_INPUT))
 		os.Exit(ERROR_CODE)
@@ -81,7 +78,6 @@ func int32InputChecker(num int, err error) {
 		os.Exit(ERROR_CODE)
 	}
 }
-
 
 func errHandler(err error) {
 	errResponse := &ErrorResponse{Status: "failed", Reason: err.Error()}

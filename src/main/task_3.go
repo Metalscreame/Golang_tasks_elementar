@@ -52,6 +52,7 @@ func taskThreeMain() {
 	sort.Slice(trianglesArray, func(i, j int) bool {
 		return trianglesArray[i].Sqrt < trianglesArray[j].Sqrt
 	})
+
 	printResultTriangles(trianglesArray)
 }
 

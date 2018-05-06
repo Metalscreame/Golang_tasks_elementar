@@ -20,17 +20,11 @@ import (
 
  */
 
-func taskFourMain() {
-	srtNumber := palindromeInput()
-	palindromeIsHere, res := isPalindrome(srtNumber)
+const LEAST_POSSIBLE_NUM_FOR_PALINDROME = 10
+const THERE_IS_NO_PALINDROME_MSG = "0"
 
-	if !palindromeIsHere{
-		fmt.Println("0")
-	} else {
-		for _, el := range res {
-			fmt.Print(el)
-		}
-	}
+func taskFourMain() {
+	printPalindromeResults(isPalindrome(palindromeInput()))
 }
 
 func isPalindrome(input string) (detectionFlag bool, res []string) {
@@ -75,7 +69,7 @@ func isPalindrome(input string) (detectionFlag bool, res []string) {
 	return detectionFlag, res
 }
 
-func palindromeInput() string{
+func palindromeInput() string {
 	var input int
 	var buffer string
 
@@ -85,10 +79,20 @@ func palindromeInput() string{
 
 	//if float check
 	input, err = strconv.Atoi(buffer)
-	if err != nil || input <= 9 {
+	if err != nil || input < LEAST_POSSIBLE_NUM_FOR_PALINDROME {
 		errHandler(errors.New(ERROR_SIGNED))
 		os.Exit(ERROR_CODE)
 	}
 
 	return strconv.Itoa(input) //after checking convert it back to str to work
+}
+
+func printPalindromeResults(palindromeIsHere bool, res []string) {
+	if !palindromeIsHere {
+		fmt.Println(THERE_IS_NO_PALINDROME_MSG)
+	} else {
+		for _, el := range res {
+			fmt.Print(el)
+		}
+	}
 }

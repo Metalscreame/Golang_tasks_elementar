@@ -19,28 +19,10 @@ import (
  */
 
 func taskOneMain() {
-	symbolToPrint, width,length :=taskOneInput()
-	printBoard(symbolToPrint, width,length)
+	printBoard(taskOneInput())
 }
 
-func printBoard(symbolToPrint string,width,length int)  {
-	fmt.Printf("\n\n")
-	for i := 1; i < width+1; i++ { //starts with 1 to print symbol first
-		if i%2 == 0 {
-			fmt.Print(" ")
-		}
-		for j := 0; j < length; j++ {
-			if j%2 == 0 {
-				fmt.Print(symbolToPrint)
-			} else {
-				fmt.Print(" ")
-			}
-		}
-		fmt.Print("\n")
-	}
-}
-
-func taskOneInput() (symbolToPrint string, widt, length int){
+func taskOneInput() (symbolToPrint string, widt, length int) {
 	var buffer string
 
 	fmt.Print("Enter one symbol to print and press Enter: ")
@@ -64,5 +46,22 @@ func taskOneInput() (symbolToPrint string, widt, length int){
 
 	widt, err = strconv.Atoi(buffer)
 	int32InputChecker(widt, err)
-	return symbolToPrint,widt,length
+	return
+}
+
+func printBoard(symbolToPrint string, width, length int) {
+	fmt.Printf("\n\n")
+	for i := 1; i < width+1; i++ { //starts with 1 to print symbol first
+		if i%2 == 0 {
+			fmt.Print(" ")
+		}
+		for j := 0; j < length; j++ {
+			if j%2 == 0 {
+				fmt.Print(symbolToPrint)
+			} else {
+				fmt.Print(" ")
+			}
+		}
+		fmt.Println()
+	}
 }

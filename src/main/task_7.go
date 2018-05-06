@@ -16,10 +16,10 @@ import (
  */
 
 const (
-	LENGTH          = 1
-	LIMITS          = 2
-	LENGTH_MODE_KEY = "Length"
-	LIMIT_MODE_KEY  = "Limits"
+	LENGTH          = "1"
+	LIMITS          = "2"
+	MODE_KEY_LENGTH = "Length"
+	MODE_KEY_LIMITS = "Limits"
 )
 
 type ContextFibonacci struct {
@@ -33,7 +33,7 @@ func taskSevenMain() {
 	var c ContextFibonacci
 	c.fibonInput()
 	c.getFibonacNumbers()
-	c.printFiboncNums()
+	c.printFibonacNums()
 }
 
 func (c *ContextFibonacci) fibonInput() {
@@ -41,10 +41,10 @@ func (c *ContextFibonacci) fibonInput() {
 	var bufferString string
 
 	fmt.Print("\nChoose (length - type 1, limits - type 2): ")
-	_, err := fmt.Scanf("%d", &firstInput)
+	_, err := fmt.Scanf("%s", &bufferString)
 	simpleErrorsChecker(err)
 
-	if firstInput == LENGTH {
+	if bufferString == LENGTH {
 		fmt.Print("Enter length: ")
 		_, err = fmt.Scanf("%s", &bufferString)
 		simpleErrorsChecker(err)
@@ -53,9 +53,13 @@ func (c *ContextFibonacci) fibonInput() {
 		firstInput, err = strconv.Atoi(bufferString)
 		int32InputChecker(firstInput, err)
 
+		if firstInput >= 20 {
+			simpleErrorsChecker(errors.New("Fibonacci numbers with length 20 and higher wont fit into int32 "))
+		}
+
 		c.length = firstInput
 
-	} else if firstInput == LIMITS {
+	} else if bufferString == LIMITS {
 		fmt.Print("Enter min point: ")
 		_, err = fmt.Scanf("%s", &bufferString)
 		simpleErrorsChecker(err)
@@ -78,9 +82,9 @@ func (c *ContextFibonacci) fibonInput() {
 
 func (c *ContextFibonacci) getFibonacNumbers() {
 	if c.length != 0 {
-		c.calculateFibonacNumbers(LENGTH_MODE_KEY)
+		c.calculateFibonacNumbers(MODE_KEY_LENGTH)
 	} else if c.max != 0 { // if it goes here, then its mode 2
-		c.calculateFibonacNumbers(LIMIT_MODE_KEY)
+		c.calculateFibonacNumbers(MODE_KEY_LIMITS)
 		if len(c.result) == 0 {
 			simpleErrorsChecker(errors.New("There are 0 numbers at this limits"))
 		}
@@ -106,14 +110,14 @@ func (c *ContextFibonacci) calculateFibonacNumbers(calculateModeKey string) {
 			previous = current
 		}
 
-		if calculateModeKey == LIMIT_MODE_KEY {
+		if calculateModeKey == MODE_KEY_LIMITS {
 			if current > c.max {
 				break
 			}
 			if current > c.min {
 				c.result = append(c.result, current)
 			}
-		} else if calculateModeKey == LENGTH_MODE_KEY {
+		} else if calculateModeKey == MODE_KEY_LENGTH {
 			if len(strconv.Itoa(current)) < c.length {
 			} else if len(strconv.Itoa(current)) > c.length {
 				break
@@ -124,7 +128,7 @@ func (c *ContextFibonacci) calculateFibonacNumbers(calculateModeKey string) {
 	}
 }
 
-func (c *ContextFibonacci) printFiboncNums() {
+func (c *ContextFibonacci) printFibonacNums() {
 	fmt.Printf(" The numbers are: \n")
 	for _, num := range c.result {
 		fmt.Print(" ", num)

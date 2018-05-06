@@ -10,64 +10,47 @@ package main
 
 import (
 	"fmt"
+	"math"
 )
 
 func taskTwoMain() {
-	a, b, c, d := inputConverts()
-	printConvertsResult(a, b, c, d )
+	getConvertsResult(inputConverts())
 }
 
-func convertsCheck(A, B, C, D float64) bool {
-
-	if A < B {
-		temp := A
-		A = B
-		B = temp
-	}
-	if C < D {
-		temp := C
-		C = D
-		D = temp
-	}
-
-	if A >= C && B >= D {
+func convertsFitCheck(a, b, c, d float64) (bool) {
+	if c <= a && d <= b ||
+		c >= a && b >= (2*c*d*a+(c*c-d*d)*math.Sqrt(c*c+d*d-a*a))/(c*c+d*d) {
 		return true
-	}
-	if C*C+D*D > A*A+B*B {
+	} else {
 		return false
 	}
-	if A*A >= C*C+D*D {
-		return B >= C
-	}
 
-	return (A*B > 2*C*D) && ((C*C+D*D-B*B)*(C*C+D*D-A*A) <= A*A*B*B-4*A*B*C*D+4*C*C*D*D)
 }
-
 func inputConverts() (a, b, c, d float64) {
 
+	fmt.Println("You must enter 4 sizes of 2 converts. First convert a and b, second - c and d")
 	fmt.Print("Enter a: ")
 	_, err := fmt.Scanf("%f", &a)
-	float64InputChecker(a,err)
+	float64InputChecker(a, err)
 
 	fmt.Print("Enter b: ")
 	_, err = fmt.Scanf("%f", &b)
-	float64InputChecker(b,err)
+	float64InputChecker(b, err)
 
 	fmt.Print("Enter c: ")
 	_, err = fmt.Scanf("%f", &c)
-	float64InputChecker(c,err)
+	float64InputChecker(c, err)
 
 	fmt.Print("Enter d: ")
 	_, err = fmt.Scanf("%f", &d)
-	float64InputChecker(d,err)
-
-	return a, b, c, d
+	float64InputChecker(d, err)
+	return
 }
 
-func printConvertsResult(a,b,c,d float64){
-	result := convertsCheck(a, b, c, d)
+func getConvertsResult(a, b, c, d float64) {
+	result := convertsFitCheck(a, b, c, d)
 	if !result {
-		result = convertsCheck(c, d, a, b)
+		result = convertsFitCheck(c, d, a, b)
 		if !result {
 			fmt.Println("0")
 		} else {
