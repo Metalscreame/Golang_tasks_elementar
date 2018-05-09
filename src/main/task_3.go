@@ -60,23 +60,23 @@ func taskThreeMain() {
 func (t * Triangle) calculateSquare() {
 	p := 0.5 * (t.A + t.B + t.C)
 	t.Sqrt = math.Sqrt(p * (p - t.A) * (p - t.B) * (p - t.C))
-	if t.Sqrt == math.NaN() || t.Sqrt == 0 {
+	if t.Sqrt == math.NaN() || t.Sqrt == 0 { //math isNan
 		simpleErrorsChecker(errors.New("Numbers are wrong for a triangle"))
 	}
 }
 
 func getTriangles() ([]Triangle, error) {
 	var err error
-	var regex = regexp.MustCompile(`^[A-C]{3}$`)
+	var regex = regexp.MustCompile(`^[A-C]{3}$`)//своя реализация в анмаршалинге
 	triangleSlice := make([]Triangle, 0)
 
 	fmt.Printf("Enter three triangle objects\n")
 	fmt.Print("For example : \n{\"vertices\": \"ABC\",\"a\": 10,\"b\": 20,\"c\": 22.36}\n")
+	in := bufio.NewReader(os.Stdin)
 
 	for i := 0; i < NUMBER_OF_TRIANBLES; i++ {
 		var t Triangle
-		in := bufio.NewReader(os.Stdin)
-		line, _ := in.ReadString('\n')
+		line, _ := in.ReadString('\n')//func newDecoder json
 
 		err = json.Unmarshal([]byte(line), &t)
 		simpleErrorsChecker(err)

@@ -15,8 +15,6 @@ import (
 Входные параметры: число
 Выход: извлечённый из числа палиндром либо 0, если извлечение не удалось.
 
-// поискать точку старта где i==i+1
-потом от центра начать двигаться вбока 
 
  */
 
@@ -26,7 +24,7 @@ const THERE_IS_NO_PALINDROME_MSG = "0"
 func taskFourMain() {
 	printPalindromeResults(isPalindrome(palindromeInput()))
 }
-
+//io buffer faster concat
 func isPalindrome(input string) (detectionFlag bool, res []string) {
 	var equalsFlag bool
 	var equalsIndex_i, equalsIndex_j, continueIndex int
@@ -47,7 +45,7 @@ func isPalindrome(input string) (detectionFlag bool, res []string) {
 			}
 		}
 
-		if equalsFlag == true {
+		if equalsFlag{
 			j := equalsIndex_j
 			for i := equalsIndex_i; i <= equalsIndex_j; i++ { // if found checks if its a polindrome from i to j
 				if input[i] == input[j] {
@@ -84,7 +82,7 @@ func palindromeInput() string {
 		os.Exit(ERROR_CODE)
 	}
 
-	return strconv.Itoa(input) //after checking convert it back to str to work
+	return buffer //after checking convert it back to str to work
 }
 
 func printPalindromeResults(palindromeIsHere bool, res []string) {
@@ -92,7 +90,7 @@ func printPalindromeResults(palindromeIsHere bool, res []string) {
 		fmt.Println(THERE_IS_NO_PALINDROME_MSG)
 	} else {
 		for _, el := range res {
-			fmt.Print(el)
+			fmt.Print(el)// better o concat and print once
 		}
 	}
 }

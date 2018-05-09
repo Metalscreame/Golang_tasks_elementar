@@ -25,10 +25,12 @@ func taskOneMain() {
 func taskOneInput() (symbolToPrint string, widt, length int) {
 	var buffer string
 
+
 	fmt.Print("Enter one symbol to print and press Enter: ")
 	_, err := fmt.Scanf("%s", &symbolToPrint)
 	simpleErrorsChecker(err)
 
+	//длина в рунах
 	if len(symbolToPrint) > 1 {
 		simpleErrorsChecker(errors.New(ERROR_ONE_SYMBOL))
 	}
