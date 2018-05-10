@@ -30,12 +30,12 @@ type Context struct {
 
 func taskFiveMain() {
 	result, _ := json.Marshal(getContext())
-	fmt.Printf("\n%s", result)
+	fmt.Printf("%s", result)
 }
 
 func getContext() (context Context) {
 	context = taskFiveInput()
-	context.valuesChecker()
+	context.validateInputTaskFive()
 	context.easyWay()
 	context.hardWay()
 	return
@@ -54,29 +54,20 @@ func taskFiveInput() (context Context) {
 
 func (c *Context) easyWay() {
 	var isLucky bool
+	var firstThreeSum, secondThreeSum int
 
 	for i := c.Min; i <= c.Max; i++ {
 		isLucky = false
-		digits := make([]int, 0)
+		firstThreeSum=0
+		secondThreeSum=0
 
-		//getting digits
-		currentNumber := i
-		for currentNumber > 0 {
-			digit := currentNumber % 10
-			digits = append(digits, digit)
-			currentNumber /= 10
-		}
-
-		var firstThreeSum, secondThreeSum int
-
+		digits := getSeparatedDigitsFromNumber(i)
 		for j := 0; j < 3; j++ {
 			firstThreeSum += digits[j]
 		}
-
 		for j := len(digits) - 3; j < len(digits); j++ {
 			secondThreeSum += digits[j]
 		}
-
 		if firstThreeSum == secondThreeSum {
 			isLucky = true
 		}
@@ -88,18 +79,13 @@ func (c *Context) easyWay() {
 
 func (c *Context) hardWay() {
 	var isLucky bool
+	var evenSum, oddSum int
 	for i := c.Min; i <= c.Max; i++ {
 		isLucky = false
-		digits := make([]int, 0)
-		var evenSum, oddSum int
+		evenSum=0
+		oddSum=0
+		digits := getSeparatedDigitsFromNumber(i)
 
-		//getting digits
-		currentNumber := i
-		for currentNumber > 0 {
-			digit := currentNumber % 10
-			digits = append(digits, digit)
-			currentNumber /= 10
-		}
 		for _, element := range digits {
 			if element%2 == 0 {
 				evenSum += element
@@ -116,19 +102,18 @@ func (c *Context) hardWay() {
 	}
 }
 
-func (c *Context) valuesChecker() {
-
+func (c *Context) validateInputTaskFive() {
 	if c.Max <= 0 || c.Min <= 0 {
 		simpleErrorsChecker(errors.New(ERROR_SIGNED))
 	}
-
 	if len(strconv.Itoa(c.Max)) < 6 || len(strconv.Itoa(c.Min)) < 6 {
 		simpleErrorsChecker(errors.New("Cant have less than 6 numbers"))
 	} else if c.Min > c.Max {
 		simpleErrorsChecker(errors.New("Min cant be higher than max"))
 	}
-	//same length check
 	if len(strconv.Itoa(int(c.Max))) != len(strconv.Itoa(int(c.Min))) {
 		simpleErrorsChecker(errors.New(ERROR_SAME_LENGTH))
 	}
 }
+
+

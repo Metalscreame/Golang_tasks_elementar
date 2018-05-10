@@ -2,9 +2,7 @@ package main
 
 import (
 	"fmt"
-	"strconv"
 	"errors"
-	"os"
 )
 
 /*
@@ -20,10 +18,33 @@ import (
 
 const LEAST_POSSIBLE_NUM_FOR_PALINDROME = 10
 const THERE_IS_NO_PALINDROME_MSG = "0"
+const MESSAGE_ENTER_PALINDROME  =  "a number to find if there is a palindrome or not"
 
 func taskFourMain() {
 	printPalindromeResults(isPalindrome(palindromeInput()))
 }
+
+func palindromeInput() string {
+	var input int
+	buffer := getValidScannedStringValue(MESSAGE_ENTER_PALINDROME)
+	input = getValidIntegerFromString(buffer)
+
+	if input < LEAST_POSSIBLE_NUM_FOR_PALINDROME {
+		simpleErrorsChecker(errors.New(ERROR_SIGNED))
+	}
+	return buffer //after checking convert it back to str to work
+}
+
+func printPalindromeResults(palindromeIsHere bool, res []string) {
+	if !palindromeIsHere {
+		fmt.Println(THERE_IS_NO_PALINDROME_MSG)
+	} else {
+		for _, el := range res {
+			fmt.Print(el) // better o concat and print once
+		}
+	}
+}
+
 //io buffer faster concat
 func isPalindrome(input string) (detectionFlag bool, res []string) {
 	var equalsFlag bool
@@ -45,7 +66,7 @@ func isPalindrome(input string) (detectionFlag bool, res []string) {
 			}
 		}
 
-		if equalsFlag{
+		if equalsFlag {
 			j := equalsIndex_j
 			for i := equalsIndex_i; i <= equalsIndex_j; i++ { // if found checks if its a polindrome from i to j
 				if input[i] == input[j] {
@@ -65,32 +86,4 @@ func isPalindrome(input string) (detectionFlag bool, res []string) {
 		}
 	}
 	return detectionFlag, res
-}
-
-func palindromeInput() string {
-	var input int
-	var buffer string
-
-	fmt.Print("Enter a number to find if its a polindrome or not: ")
-	_, err := fmt.Scanf("%s", &buffer)
-	simpleErrorsChecker(err)
-
-	//if float check
-	input, err = strconv.Atoi(buffer)
-	if err != nil || input < LEAST_POSSIBLE_NUM_FOR_PALINDROME {
-		errHandler(errors.New(ERROR_SIGNED))
-		os.Exit(ERROR_CODE)
-	}
-
-	return buffer //after checking convert it back to str to work
-}
-
-func printPalindromeResults(palindromeIsHere bool, res []string) {
-	if !palindromeIsHere {
-		fmt.Println(THERE_IS_NO_PALINDROME_MSG)
-	} else {
-		for _, el := range res {
-			fmt.Print(el)// better o concat and print once
-		}
-	}
 }

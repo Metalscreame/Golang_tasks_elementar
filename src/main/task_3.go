@@ -43,16 +43,12 @@ type Triangle struct {
 	Sqrt     float64
 }
 
-
 func taskThreeMain() {
-
 	trianglesArray, err := getTriangles()
 	simpleErrorsChecker(err)
-
 	sort.Slice(trianglesArray, func(i, j int) bool {
 		return trianglesArray[i].Sqrt < trianglesArray[j].Sqrt
 	})
-
 	printResultTriangles(trianglesArray)
 }
 
@@ -67,7 +63,7 @@ func (t * Triangle) calculateSquare() {
 
 func getTriangles() ([]Triangle, error) {
 	var err error
-	var regex = regexp.MustCompile(`^[A-C]{3}$`)//своя реализация в анмаршалинге
+
 	triangleSlice := make([]Triangle, 0)
 
 	fmt.Printf("Enter three triangle objects\n")
@@ -76,24 +72,10 @@ func getTriangles() ([]Triangle, error) {
 
 	for i := 0; i < NUMBER_OF_TRIANBLES; i++ {
 		var t Triangle
-		line, _ := in.ReadString('\n')//func newDecoder json
-
+		line, _ := in.ReadString('\n')//func newDecoder json   		json.NewDecoder()
 		err = json.Unmarshal([]byte(line), &t)
 		simpleErrorsChecker(err)
-
-		if regex.MatchString(t.Vertices) != true {
-			simpleErrorsChecker(errors.New("Wrong name"))
-		}
-
-		if t.A <= 0 || t.B <= 0 || t.C <= 0 {
-			simpleErrorsChecker(errors.New(ERROR_SIGNED))
-		}
-
-		if !checkNameAndNumbers(t) {
-			simpleErrorsChecker(errors.New("Names dont fit actual values"))
-		}
-
-		t.calculateSquare() //calculate every's triangle square
+		t.validateTriangle()
 		triangleSlice = append(triangleSlice, t)
 	}
 
@@ -106,9 +88,22 @@ func getTriangles() ([]Triangle, error) {
 	}
 }
 
-func checkNameAndNumbers(t Triangle) bool {
-	r := []rune(t.Vertices)
+func (t * Triangle) validateTriangle() {
+	var regex = regexp.MustCompile(`^[A-C]{3}$`)//своя реализация в анмаршалинге
+	if regex.MatchString(t.Vertices) != true {
+		simpleErrorsChecker(errors.New("Wrong name"))
+	}
+	if t.A <= 0 || t.B <= 0 || t.C <= 0 {
+		simpleErrorsChecker(errors.New(ERROR_SIGNED))
+	}
+	if !t.checkNameAndNumbers() {
+		simpleErrorsChecker(errors.New("Names dont fit actual values"))
+	}
+	t.calculateSquare() //calculates and validates sqr
+}
 
+func (t * Triangle)checkNameAndNumbers() bool {
+	r := []rune(t.Vertices)
 	if string(r[2]) == "A" && t.A > t.B && t.A > t.C {
 		if string(r[0]) == "B" && t.B < t.C {
 			return true

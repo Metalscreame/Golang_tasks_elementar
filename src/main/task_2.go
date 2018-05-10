@@ -14,37 +14,38 @@ import (
 	"math"
 )
 
+const (
+	MESSAGE_A_SIZE = "the size of a"
+	MESSAGE_B_SIZE = "the size of b"
+	MESSAGE_C_SIZE = "the size of c"
+	MESSAGE_D_SIZE = "the size of d"
+	MESSAGE_AB_CD = "AB -> CD"
+	MESSAGE_CD_AB = "CD -> AB"
+	MESSAGE_DOESNT_FIT = "0"
+	MESSAGE_TASK_2_INPUT = "You must enter 4 sizes of 2 converts. First convert a and b, second - c and d"
+)
+
+
+
 func taskTwoMain() {
 	getConvertsResult(inputConverts())
 }
 
-func convertsFitCheck(a, b, c, d float64) (bool) {
-	if c <= a && d <= b ||
-		c >= a && b >= (2*c*d*a+(c*c-d*d)*math.Sqrt(c*c+d*d-a*a))/(c*c+d*d) {
+func convertsFitCheck(a, b, p, q float64) (bool) {
+	if  p <= a && q <= b ||
+		p > a && b >= (2*p*q*a+((p*p-q*q)*math.Sqrt(p*p+q*q-a*a)))/(p*p+q*q) {
 		return true
 	} else {
 		return false
 	}
-
 }
+
 func inputConverts() (a, b, c, d float64) {
-
-	fmt.Println("You must enter 4 sizes of 2 converts. First convert a and b, second - c and d")
-	fmt.Print("Enter a: ")
-	_, err := fmt.Scanf("%f", &a)
-	float64InputChecker(a, err)
-
-	fmt.Print("Enter b: ")
-	_, err = fmt.Scanf("%f", &b)
-	float64InputChecker(b, err)
-
-	fmt.Print("Enter c: ")
-	_, err = fmt.Scanf("%f", &c)
-	float64InputChecker(c, err)
-
-	fmt.Print("Enter d: ")
-	_, err = fmt.Scanf("%f", &d)
-	float64InputChecker(d, err)
+	fmt.Println(MESSAGE_TASK_2_INPUT)
+	a= getValidScannedFloatValue(MESSAGE_A_SIZE)
+	b= getValidScannedFloatValue(MESSAGE_B_SIZE)
+	c= getValidScannedFloatValue(MESSAGE_C_SIZE)
+	d= getValidScannedFloatValue(MESSAGE_D_SIZE)
 	return
 }
 
@@ -53,11 +54,11 @@ func getConvertsResult(a, b, c, d float64) {
 	if !result {
 		result = convertsFitCheck(c, d, a, b)
 		if !result {
-			fmt.Println("0")
+			fmt.Println(MESSAGE_DOESNT_FIT)
 		} else {
-			fmt.Println("AB -> CD")
+			fmt.Println(MESSAGE_AB_CD)
 		}
 	} else {
-		fmt.Println("AB <- CD")
+		fmt.Println(MESSAGE_CD_AB)
 	}
 }

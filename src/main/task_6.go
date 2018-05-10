@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"math"
-	"strconv"
 )
 
 /*
@@ -11,6 +10,8 @@ import (
 Входные параметры: длина и значение минимального квадрата
 Выход: строка с рядом чисел
  */
+
+const MESSAGE_SQRT = "number to get sqrt"
 
 type TaskSixContext struct {
 	m      int
@@ -21,30 +22,16 @@ var context TaskSixContext
 
 func taskSixMain() {
 	taskSixInput()
+	fmt.Println()
 	printTaskSixResult(getStartPoint())
 }
 
 func taskSixInput() {
-	var bufferString string
-
-	fmt.Print("Type length \"n\" : ")
-	_, err := fmt.Scanf("%s", &bufferString)
-	simpleErrorsChecker(err)
-
-	//if float check
-	context.length, err = strconv.Atoi(bufferString)
-	int32InputChecker(context.length, err)
-
-	fmt.Print("Type sqrt \"m\" : ")
-	_, err = fmt.Scanf("%s", &bufferString)
-	simpleErrorsChecker(err)
-
-	context.m, err = strconv.Atoi(bufferString)
-	int32InputChecker(context.m, err)
+	context.length = getValidScannedIntegerValue(MESSAGE_LENGTH)
+	context.m = getValidScannedIntegerValue(MESSAGE_SQRT)
 }
 
 func getStartPoint() (startPoint int) {
-	fmt.Println()
 	sqrtOfM := getSqrt(context.m)
 	fmt.Printf("The sqrt of m is %f", sqrtOfM)
 

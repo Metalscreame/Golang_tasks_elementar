@@ -23,7 +23,10 @@ type ErrorResponse struct {
 }
 
 func main() {
-	taskDispatcher(mainInput())
+	for true{
+		taskDispatcher(mainInput())
+		fmt.Println()
+	}
 }
 
 func mainInput() (taskNum int) {
@@ -88,4 +91,50 @@ func errHandler(err error) {
 func floatToString(num float64) string {
 	// to convert a float number to a string
 	return strconv.FormatFloat(num, 'f', 6, 64)
+}
+
+func getValidIntegerFromString(str string)(res int){
+	res, err := strconv.Atoi(str)
+	int32InputChecker(res, err) // if there is error, wont go further
+	return
+}
+
+func getValidScannedIntegerValue(messageToAsk string ) (res int) {
+	var buffer string
+	fmt.Printf("Enter %s and press Enter: ", messageToAsk)
+	_, err := fmt.Scanf("%s", &buffer)
+	simpleErrorsChecker(err)
+	res=getValidIntegerFromString(buffer)
+	int32InputChecker(res, err)
+	return
+}
+
+func getValidScannedString(message string)(bufferString string) {
+	fmt.Println(message)
+	_, err := fmt.Scanf("%s", &bufferString)
+	simpleErrorsChecker(err)
+	return
+}
+
+func getValidScannedStringValue(messageToAsk string) (value string) {
+	fmt.Printf("Enter %s and press Enter: ", messageToAsk)
+	_, err := fmt.Scanf("%s", &value)
+	simpleErrorsChecker(err)
+	return
+}
+
+func getValidScannedFloatValue(messageToAsk string) (f float64) {
+	fmt.Printf("Enter %s and press Enter: ", messageToAsk)
+	_, err := fmt.Scanf("%f", &f)
+	float64InputChecker(f, err)
+	return f
+}
+
+func getSeparatedDigitsFromNumber(currentNumber int) (digits []int) {
+	for currentNumber > 0 {
+		digit := currentNumber % 10
+		digits = append(digits, digit)
+		currentNumber /= 10
+	}
+	return
 }
