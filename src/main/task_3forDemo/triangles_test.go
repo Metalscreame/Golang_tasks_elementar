@@ -40,6 +40,11 @@ func TestTrianglesSquareSort(t *testing.T) {
 				{"BAC", 10.0, 9, 22.36, 0}},
 			needError: true,
 		},
+		{
+			name: "error, empty slice",
+			input: []Triangle{},
+				needError: true,
+		},
 	}
 
 	for _, testCase := range testCases {

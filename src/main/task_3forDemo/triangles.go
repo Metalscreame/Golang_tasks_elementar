@@ -66,6 +66,10 @@ func TrianglesSquareSort(trianglesToSortSlice []Triangle) ( []Triangle, error) {
 }
 
 func validateTriangles(t []Triangle) (err error) {
+	if len(t) == 0{
+		return errors.New("Size cant be nil")
+	}
+
 	for i := 0; i < len(t); i++ {
 		err = t[i].validateSingleTriangle()
 		if err != nil {
