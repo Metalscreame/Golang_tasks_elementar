@@ -66,7 +66,7 @@ func TrianglesSquareSort(trianglesToSortSlice []Triangle) ( []Triangle, error) {
 }
 
 func validateTriangles(t []Triangle) (err error) {
-	if len(t) == 0{
+	if len(t) == 0 || len(t) == 1{
 		return errors.New("Size cant be nil")
 	}
 
@@ -81,9 +81,7 @@ func validateTriangles(t []Triangle) (err error) {
 		}
 	}
 
-	if t[0].Vertices == t[1].Vertices || t[0].Vertices == t[2].Vertices || t[1].Vertices == t[2].Vertices {
-		return errors.New("Names cant be the same")
-	}
+
 	return
 }
 
