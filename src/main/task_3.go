@@ -28,9 +28,23 @@ b: 20,
 c: 22.36
 }
 
-{"vertices": "ABC","a": 10,"b": 20,"c": 22.36}
-{"vertices": "CBA","a": 16,"b": 15,"c": 6}
-{"vertices": "BAC","a": 10,"b": 9,"c": 16}
+[{
+	"vertices": "ABC",
+	"a": 10,
+	"b": 20,
+	"c": 22.36
+}, {
+	"vertices": "CBA",
+	"a": 16,
+	"b": 15,
+	"c": 6
+}, {
+	"vertices": "BAC",
+	"a": 10,
+	"b": 9,
+	"c": 16
+}]
+
  */
 
 const NUMBER_OF_TRIANBLES  = 3
